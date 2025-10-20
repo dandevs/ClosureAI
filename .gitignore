@@ -1,0 +1,87 @@
+# Unity Generated
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Uu]ser[Ss]ettings/
+*.csproj
+*.sln
+*.unityproj
+
+# Rider IDE
+.idea/
+.idea_modules/
+*.swp
+*.swo
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Visual Studio
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Build artifacts and platform-specific
+*.apk
+*.aab
+*.app
+*.ipa
+*.exe
+*.so
+*.o
+*.a
+*.dylib
+*.dll.mdb
+
+# Version Control Systems
+.plastic/
+.git.bak
+.hg/
+.svn/
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.~lock*
+
+# Debugging
+*.pdb
+*.mdb
+
+# Package Manager
+/Packages/
+packages.config
+
+# Exclude Plastic SCM history files (no need in Git)
+PLASTIC_SCM_HISTORY.txt
+PLASTIC_SCM_HISTORY.xml
+
+# Ignore local settings
+.claude/settings.local.json
+ignore.conf

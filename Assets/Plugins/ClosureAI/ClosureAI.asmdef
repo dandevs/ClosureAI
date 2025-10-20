@@ -1,0 +1,20 @@
+{
+    "name": "ClosureAI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:43aab4a50a5839e44af6c24ac5006688",
+        "GUID:46b7fe7fb55a0ca4aa66f90961731b83",
+        "GUID:f2be1b7392ef6cc4eafd0ee8ac7a090a",
+        "GUID:5c01796d064528144a599661eaab93a6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
