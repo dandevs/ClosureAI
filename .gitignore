@@ -48,6 +48,7 @@
 # Version Control Systems
 .plastic/
 .git.bak
+.git.backup
 .hg/
 .svn/
 
