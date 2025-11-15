@@ -1,7 +1,0 @@
-Initial commit: Migrate from Plastic SCM to Git
-
-- Initialize Git repository with proper .gitignore for Unity project
-- Configure Git LFS for binary assets (FBX, DLLs, textures, audio)
-- Export Plastic SCM history to PLASTIC_SCM_HISTORY.xml for reference
-- Add .gitattributes for consistent line endings and LFS tracking
-- Ready for GitHub upload
