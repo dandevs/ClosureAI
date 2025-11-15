@@ -107,7 +107,7 @@ def migrate():
             print("FAIL")
 
     print(f"\n{'='*70}")
-    print(f"✓ Complete: {success_count}/{len(changesets)} commits created")
+    print(f"Complete: {success_count}/{len(changesets)} commits created")
     print(f"  Branches: {', '.join(sorted(git_branches))}")
     print(f"{'='*70}\n")
 
