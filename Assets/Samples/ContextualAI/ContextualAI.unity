@@ -979,7 +979,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 1
   m_VoxelSize: 0.08
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 2ac932dceb060164eb79b96da2566285, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f9f35813887207948b914c1414b4296f, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &526016815
 GameObject:
@@ -1496,7 +1496,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AI:
-    Name: 
     _status: 0
     _subStatus: 0
     _flags: 0
@@ -1774,7 +1773,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AI:
-    Name: 
     _status: 0
     _subStatus: 0
     _flags: 0
@@ -1829,21 +1827,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c237a0d0d4843ce8384dde1b0e254a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AI:
-    Name: 
-    _status: 0
-    _subStatus: 0
-    _flags: 0
-    Variables: []
   Camera: {fileID: 961739752}
   TargetTransform: {fileID: 921045486}
   TargetPosition: {x: 0, y: 10, z: 0}
   TargetOrthoSize: 0
   RotationEuler: {x: -45, y: 0, z: 0}
   Offset: {x: 0, y: 10, z: 0}
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &1160234425
 GameObject:
   m_ObjectHideFlags: 0

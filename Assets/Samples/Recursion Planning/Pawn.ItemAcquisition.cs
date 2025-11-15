@@ -7,34 +7,6 @@ namespace ClosureAI.Samples.Shared
     public partial class Pawn
     {
         /// <summary>
-        /// Creates a leaf node that moves the agent to a specified target position with a given stopping distance.
-        /// </summary>
-        /// <param name="getParams">A function that returns a tuple containing the target position and stopping distance.</param>
-        /// <param name="lifecycle">An optional action to invoke for lifecycle events.</param>
-        /// <returns>A leaf node for movement.</returns>
-        public Node MoveTo(Func<(Vector3 position, float stoppingDistance, float invalidateDistance)> getParams, Action lifecycle = null) => Leaf("Move To", () =>
-        {
-            var stoppingPosition = Variable(() => Vector3.zero);
-
-            OnInvalidCheck(() => Vector3.Distance(getParams().position, stoppingPosition.Value) > getParams().invalidateDistance);
-            OnSuccess(() => stoppingPosition.Value = transform.position);
-            OnExit(() => Agent.ResetPath());
-
-            OnBaseTick(() =>
-            {
-                var (targetPosition, stoppingDistance, _) = getParams();
-
-                Agent.speed = MoveSpeed;
-
-                return MoveTo(targetPosition, stoppingDistance)
-                    ? Status.Success
-                    : Status.Running;
-            });
-
-            lifecycle?.Invoke();
-        });
-
-        /// <summary>
         /// Creates a leaf node that moves the agent to a specified target position with a default stopping distance.
         /// </summary>
         /// <param name="getTargetPosition">A function that returns the target position.</param>
