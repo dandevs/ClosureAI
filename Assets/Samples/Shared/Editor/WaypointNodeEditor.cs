@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITASK_INSTALLED
+using UnityEngine;
 using UnityEditor;
 
 namespace ClosureAI.Samples.Editor
@@ -39,3 +40,4 @@ namespace ClosureAI.Samples.Editor
         }
     }
 }
+#endif

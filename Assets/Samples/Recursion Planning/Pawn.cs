@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITASK_INSTALLED
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using static ClosureAI.AI;
@@ -89,3 +90,4 @@ namespace ClosureAI.Samples.Shared
 
     }
 }
+#endif

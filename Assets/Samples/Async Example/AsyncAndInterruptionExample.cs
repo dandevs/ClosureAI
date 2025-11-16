@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if UNITASK_INSTALLED
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -113,3 +114,4 @@ namespace ClosureAI.Samples.MemoryGame
         }
     }
 }
+#endif

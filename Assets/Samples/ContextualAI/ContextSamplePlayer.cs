@@ -1,4 +1,5 @@
-﻿using ClosureAI.Samples.Shared;
+﻿#if UNITASK_INSTALLED
+using ClosureAI.Samples.Shared;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static ClosureAI.AI;
@@ -67,3 +68,4 @@ namespace ClosureAI.Samples.ContextAI
         }
     }
 }
+#endif

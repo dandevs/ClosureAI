@@ -1,3 +1,4 @@
+#if UNITASK_INSTALLED
 using UnityEngine;
 using static ClosureAI.AI;
 
@@ -36,3 +37,4 @@ namespace ClosureAI.Samples.SequenceAndSelector
         void OnDestroy() => AI.ResetImmediately();
     }
 }
+#endif

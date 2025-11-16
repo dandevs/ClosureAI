@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITASK_INSTALLED
+using System;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 
@@ -18,3 +19,4 @@ namespace ClosureAI.Samples
         Entity = 1 << 2,
     }
 }
+#endif

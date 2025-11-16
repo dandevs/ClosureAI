@@ -1,3 +1,4 @@
+#if UNITASK_INSTALLED
 using UnityEngine;
 using static ClosureAI.AI;
 
@@ -34,3 +35,4 @@ namespace ClosureAI.Samples.Shared
         }
     }
 }
+#endif

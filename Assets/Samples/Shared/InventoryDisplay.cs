@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITASK_INSTALLED
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -67,3 +68,4 @@ namespace ClosureAI.Samples
         }
     }
 }
+#endif

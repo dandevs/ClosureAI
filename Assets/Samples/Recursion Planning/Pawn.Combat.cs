@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITASK_INSTALLED
+using UnityEngine;
 
 namespace ClosureAI.Samples.Shared
 {
@@ -7,3 +8,4 @@ namespace ClosureAI.Samples.Shared
 
     }
 }
+#endif

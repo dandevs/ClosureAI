@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITASK_INSTALLED
+using System;
 using ClosureAI.Samples.Shared;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -169,3 +170,4 @@ namespace ClosureAI.Samples.ContextAI
         private void OnDestroy() => AI.ResetImmediately();
     }
 }
+#endif

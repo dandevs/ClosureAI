@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITASK_INSTALLED
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -49,3 +50,4 @@ namespace ClosureAI.Samples
         public bool Contains(string itemID) => Items.Contains(itemID);
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if UNITASK_INSTALLED
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using static ClosureAI.AI;
@@ -37,3 +38,4 @@ namespace ClosureAI.Samples.ContextAI
         });
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if UNITASK_INSTALLED
 using UnityEngine;
 using static ClosureAI.AI;
 
@@ -37,3 +38,4 @@ namespace ClosureAI.Samples.RaceExample
         void OnDestroy() => AI.ResetImmediately();
     }
 }
+#endif

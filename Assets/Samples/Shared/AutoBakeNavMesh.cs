@@ -1,4 +1,5 @@
-﻿using Unity.AI.Navigation;
+﻿#if UNITASK_INSTALLED
+using Unity.AI.Navigation;
 using UnityEngine;
 
 namespace ClosureAI.Samples
@@ -12,3 +13,4 @@ namespace ClosureAI.Samples
         }
     }
 }
+#endif

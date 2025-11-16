@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if UNITASK_INSTALLED
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClosureAI.Samples.Shared
@@ -17,3 +18,4 @@ namespace ClosureAI.Samples.Shared
         }
     }
 }
+#endif

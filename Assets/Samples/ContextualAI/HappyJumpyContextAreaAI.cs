@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITASK_INSTALLED
+using UnityEngine;
 using static ClosureAI.AI;
 
 namespace ClosureAI.Samples.ContextAI
@@ -29,3 +30,4 @@ namespace ClosureAI.Samples.ContextAI
         });
     }
 }
+#endif
