@@ -1,4 +1,5 @@
 #if UNITASK_INSTALLED
+using System.Collections.Generic;
 using UnityEngine;
 using static ClosureAI.AI;
 

@@ -1,7 +1,6 @@
 #if UNITASK_INSTALLED
 using static ClosureAI.AI;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 
 namespace ClosureAI.Samples.Flee
 {
