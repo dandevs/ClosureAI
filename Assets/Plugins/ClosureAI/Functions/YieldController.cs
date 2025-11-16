@@ -31,7 +31,6 @@ namespace ClosureAI
         /// <list type="bullet">
         /// <item><b>NodeChangeResetPolicy:</b> Controls reset behavior when switching nodes (None or Reset)</item>
         /// <item><b>NodeExitResetPolicy:</b> Controls reset behavior when yield node exits (None or Reset)</item>
-        /// <item><b>NodeCompletedPolicy:</b> Controls behavior when child completes (Return status or Reset and loop)</item>
         /// <item><b>ConsumeTickOnStateChange:</b> Controls whether state changes happen immediately or wait for next tick</item>
         /// </list>
         ///
@@ -41,7 +40,6 @@ namespace ClosureAI
         /// controller
         ///     .WithResetYieldedNodeOnNodeChange()
         ///     .WithResetYieldedNodeOnSelfExit()
-        ///     .WithLooping()
         ///     .WithConsumeTickOnStateChange(false);
         /// </code>
         /// </remarks>
@@ -68,11 +66,6 @@ namespace ClosureAI
             /// </summary>
             public YieldResetPolicy NodeExitResetPolicy = YieldResetPolicy.None;
 
-            /// <summary>
-            /// Policy controlling what happens when a yielded node completes.
-            /// Return: Returns the child's status. Reset: Resets child and continues running (looping).
-            /// </summary>
-            public NodeCompletedPolicy NodeCompletedPolicy = NodeCompletedPolicy.Return;
 
             /// <summary>
             /// Controls whether state changes consume a tick or happen immediately.
@@ -129,26 +122,6 @@ namespace ClosureAI
                 return this;
             }
 
-            /// <summary>
-            /// Configures what happens when a child node completes (succeeds or fails).
-            /// </summary>
-            /// <param name="policy">The completion policy to apply</param>
-            /// <returns>This controller instance for method chaining</returns>
-            /// <remarks>
-            /// <para><b>NodeCompletedPolicy.Return:</b></para>
-            /// When the yielded node completes, return its status (Success or Failure) and the yield node completes.
-            /// This is the default behavior and appropriate for most single-execution scenarios.
-            ///
-            /// <para><b>NodeCompletedPolicy.Reset:</b></para>
-            /// When the yielded node completes, automatically reset it and continue running. This creates
-            /// looping behavior where the node runs indefinitely. The yield node always returns Running.
-            /// Use for patrol loops, idle animations, and other repeating behaviors.
-            /// </remarks>
-            public YieldController OnSelfCompleted(NodeCompletedPolicy policy)
-            {
-                NodeCompletedPolicy = policy;
-                return this;
-            }
 
             /// <summary>
             /// Fluent configuration method to enable/disable graceful reset of yielded nodes when switching.
@@ -188,42 +161,6 @@ namespace ClosureAI
                 return this;
             }
 
-            /// <summary>
-            /// Fluent configuration method to enable/disable looping behavior (auto-reset on completion).
-            /// This is a convenience wrapper around OnSelfCompleted(NodeCompletedPolicy).
-            /// </summary>
-            /// <param name="enabled">True to loop (reset and continue), false to return status and complete</param>
-            /// <returns>This controller instance for method chaining</returns>
-            /// <remarks>
-            /// <para><b>When enabled:</b></para>
-            /// <list type="bullet">
-            /// <item>When the yielded node completes, it is automatically reset and continues running</item>
-            /// <item>The yield node always returns Running (never completes)</item>
-            /// <item>Creates infinite loop behavior - useful for patrols, idle animations, etc.</item>
-            /// </list>
-            ///
-            /// <para><b>When disabled (default):</b></para>
-            /// <list type="bullet">
-            /// <item>When the yielded node completes, return its status (Success/Failure)</item>
-            /// <item>The yield node completes with the child's status</item>
-            /// <item>Standard one-time execution behavior</item>
-            /// </list>
-            ///
-            /// <para><b>Example:</b></para>
-            /// <code>
-            /// YieldDynamic(controller =>
-            /// {
-            ///     controller.WithLooping(); // Enable infinite looping
-            ///     return _ => PatrolBehavior();
-            /// });
-            /// // PatrolBehavior runs, completes, resets, and runs again forever
-            /// </code>
-            /// </remarks>
-            public YieldController WithLooping(bool enabled = true)
-            {
-                NodeCompletedPolicy = enabled ? NodeCompletedPolicy.Reset : NodeCompletedPolicy.Return;
-                return this;
-            }
 
             /// <summary>
             /// Fluent configuration method to control whether state changes consume a tick or happen immediately.
@@ -287,23 +224,6 @@ namespace ClosureAI
             Reset,
         }
 
-        /// <summary>
-        /// Defines policies for handling yielded node completion.
-        /// </summary>
-        public enum NodeCompletedPolicy
-        {
-            /// <summary>
-            /// Return the child's status (Success or Failure) when it completes.
-            /// The yield node completes with the same status.
-            /// </summary>
-            Return,
-
-            /// <summary>
-            /// Reset the child node and continue running when it completes.
-            /// The yield node always returns Running, creating looping behavior.
-            /// </summary>
-            Reset,
-        }
     }
 }
 

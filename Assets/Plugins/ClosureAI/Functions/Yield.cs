@@ -71,19 +71,17 @@ namespace ClosureAI
         /// // This creates arbitrarily deep recursion based on crafting dependencies
         /// </code>
         ///
-        /// <para><b>Example - Dynamic Behavior Selection:</b></para>
+        /// <para><b>Example - Fixed Initial Setup:</b></para>
         /// <code>
+        /// // Good: Initial setup that doesn't change
+        /// YieldSimpleCached("Patrol Route", () => CreatePatrolRoute(currentLocation));
+        ///
+        /// // Bad: Don't use this if combatMode can change - it will lock to the first selected tree
         /// YieldSimpleCached("Combat Style", () =>
         /// {
-        ///     return combatMode switch
-        ///     {
-        ///         CombatMode.Aggressive => AggressiveCombatTree(),
-        ///         CombatMode.Defensive => DefensiveCombatTree(),
-        ///         CombatMode.Stealth => StealthCombatTree(),
-        ///         _ => DefaultCombatTree()
-        ///     };
+        ///     return combatMode switch { /* ... */ };
         /// });
-        /// // The getNode function is evaluated once, caching the selected tree
+        /// // Use YieldDynamic instead if you need to switch based on changing conditions
         /// </code>
         ///
         /// <para><b>Technical Details:</b></para>
@@ -93,8 +91,7 @@ namespace ClosureAI
         ///
         /// <para><b>When NOT to use:</b></para>
         /// <list type="bullet">
-        /// <item>If you need the yielded node to change dynamically each tick, use <see cref="YieldDynamic"/> instead</item>
-        /// <item>If you need looping behavior when child completes, use <see cref="YieldLoop"/> instead</item>
+        /// <item>If you need the yielded node to change dynamically, use <see cref="YieldDynamic"/> instead</item>
         /// <item>If you need fine-grained control over reset policies, use <see cref="YieldDynamic"/> directly</item>
         /// </list>
         /// </remarks>
