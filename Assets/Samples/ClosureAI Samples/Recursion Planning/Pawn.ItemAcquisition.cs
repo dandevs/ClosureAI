@@ -59,7 +59,7 @@ namespace ClosureAI.Samples.Shared
 
             //----------------------------------------------------
 
-            YieldSimpleCached(() => HarvestItem(getItemID));
+            YieldSimpleCached(() => HarvestItem(itemID));
 
             //----------------------------------------------------O
 

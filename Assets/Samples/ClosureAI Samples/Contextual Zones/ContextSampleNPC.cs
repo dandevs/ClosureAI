@@ -16,7 +16,7 @@ namespace ClosureAI.Samples.ContextAI
 
         public Node CustomAI { get; set; }
 
-        private void Awake() => AI = Reactive * SequenceAlways("Sample NPC AI", () =>
+        private void Awake() => AI = Reactive * SequenceAlways("Contextual NPC AI", () =>
         {
             D.ConditionLatch(() => !Node.IsInvalid(CustomAI));
             SequenceAlways("Use Custom Node", () =>

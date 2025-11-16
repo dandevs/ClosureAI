@@ -26,7 +26,7 @@ namespace ClosureAI.Samples.Flee
             });
 
             // Why a ConditionLatch + Until?
-            // The answer is hysteresis - we want to avoid rapid toggling between states
+            // hysteresis - we want to avoid rapid toggling between states
             // We do not want to constantly switch between "Flee" and "Not Flee" if the player is hovering around the threshold distance
             // The ConditionLatch ensures that once we start fleeing, we won't stop until the player is sufficiently far away
             // This creates a more stable and natural behavior
@@ -48,7 +48,7 @@ namespace ClosureAI.Samples.Flee
             });
 
             // Once the "Flee" behavior completes (player is far enough away),
-            // the SequenceStar moves to the next child: return to center
+            // the Sequence moves to the next child: return to center
             Sequence(() =>
             {
                 WaitUntil(() => MoveBuddy(Vector3.zero));

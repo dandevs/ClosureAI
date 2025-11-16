@@ -2,28 +2,16 @@
 using ClosureAI.Samples.Shared;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static ClosureAI.AI;
 
 namespace ClosureAI.Samples.ContextAI
 {
     [SelectionBase]
     public class ContextSamplePlayer : MonoBehaviour
     {
-        public Node AI;
         public ContextSampleCamera CameraController;
         public Transform Target;
         public Pawn Pawn;
         public ContextSampleNPC NPC;
-
-        private void Awake()
-        {
-            AI = CreateAI();
-        }
-
-        private Node CreateAI() => Sequence(() =>
-        {
-            JustRunning();
-        });
 
         private void Update()
         {
@@ -46,10 +34,7 @@ namespace ClosureAI.Samples.ContextAI
 
             // if (lookToPos != Vector3.zero)
             Pawn.LookAtXZ(lookToPos);
-            AI.Tick();
         }
-
-        private void OnDestroy() => AI.ResetImmediately();
 
         private void OnTriggerEnter(Collider other)
         {

@@ -67,11 +67,11 @@ namespace ClosureAI
                 public List<YieldNode> YieldNodes => RootNode.Editor._yieldNodes ??= new();
                 // public Dictionary<int, NodeSnapshotData> FrameIndexSnapshotDict = new();
 
-                public readonly AsyncReactiveProperty<Status> StatusAsync = new(default);
-                public readonly AsyncReactiveProperty<SubStatus> SubStatusAsync = new(default);
+                // public readonly AsyncReactiveProperty<Status> StatusAsync = new(default);
+                // public readonly AsyncReactiveProperty<SubStatus> SubStatusAsync = new(default);
 
-                public static readonly AsyncReactiveProperty<Node> ActivatedRootNodeAsync = new(null);
-                public static readonly AsyncReactiveProperty<Node> DeactivatedRootNodeAsync = new(null);
+                // public static readonly AsyncReactiveProperty<Node> ActivatedRootNodeAsync = new(null);
+                // public static readonly AsyncReactiveProperty<Node> DeactivatedRootNodeAsync = new(null);
 
                 private bool _markedForRecording = true;
                 public bool MarkedForRecording
@@ -121,14 +121,14 @@ namespace ClosureAI
                         {
                             RootNodes.Add(node);
                             OnRootNodeActivated(node);
-                            ActivatedRootNodeAsync.Value = node;
+                            // ActivatedRootNodeAsync.Value = node;
                         }
 
                         else if (previousStatus != Status.None && node.Status == Status.None)
                         {
                             RootNodes.Remove(node);
                             OnRootNodeDeactivated(node);
-                            DeactivatedRootNodeAsync.Value = node;
+                            // DeactivatedRootNodeAsync.Value = node;
                         }
                     }
 

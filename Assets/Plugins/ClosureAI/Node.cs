@@ -133,7 +133,7 @@ namespace ClosureAI
                     if (changed)
                     {
                         Editor.NotifyStatusChanged(this, previous);
-                        Editor.StatusAsync.Value = _status;
+                        // Editor.StatusAsync.Value = _status;
                     }
 #endif
                 }
@@ -154,7 +154,7 @@ namespace ClosureAI
                     if (changed && value == SubStatus.Done)
                     {
                         Editor.NotifySubStatusChanged(this);
-                        Editor.SubStatusAsync.Value = _subStatus;
+                        // Editor.SubStatusAsync.Value = _subStatus;
                     }
 #endif
                 }
