@@ -18,9 +18,9 @@ namespace ClosureAI.Samples.Flee
         {
             // VARIABLE: Stores data that persists across tree ticks
             // This variable will hold the calculated distance to the player's mouse
-            var distanceToPlayer = Variable(() => 0f);
+            var distanceToPlayer = Variable(0f);
 
-            OnTick(() =>
+            OnPreTick(() =>
             {
                 distanceToPlayer.Value = Vector3.Distance(Buddy.transform.position, PlaneCastMousePosition());
             });

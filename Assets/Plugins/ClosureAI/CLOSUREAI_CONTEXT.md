@@ -401,13 +401,7 @@ YieldDynamic("State Machine", controller =>
 **YieldController Policies:**
 - `WithResetYieldedNodeOnNodeChange()` - Reset old node when switching
 - `WithResetYieldedNodeOnSelfExit()` - Reset child when yield exits
-- `WithLooping()` - Auto-reset and continue
 - `WithConsumeTickOnStateChange(bool)` - Control timing of state changes
-
-**YieldLoop** - Shorthand for continuous execution:
-```csharp
-YieldLoop(_ => DoWork());  // Equivalent to YieldDynamic with WithLooping()
-```
 
 ### Node Graph Visualization
 

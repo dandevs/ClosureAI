@@ -99,12 +99,6 @@ namespace ClosureAI
             /// <item><b>D.RepeatCount:</b> Fixed number of iterations, returns Success when count reached</item>
             /// </list>
             ///
-            /// <para><b>Difference from YieldLoop:</b></para>
-            /// <list type="bullet">
-            /// <item><b>D.Repeat:</b> Decorator that wraps a child node</item>
-            /// <item><b>YieldLoop:</b> Composite that yields different nodes dynamically</item>
-            /// </list>
-            ///
             /// <para><b>Technical Note:</b></para>
             /// ResetGracefully(false) is called with `fireInvalidations: false` to prevent unnecessary
             /// invalidation signals during the reset, since the child is immediately re-entered.

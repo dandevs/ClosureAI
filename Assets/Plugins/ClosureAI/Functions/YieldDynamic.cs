@@ -38,12 +38,6 @@ namespace ClosureAI
         ///     <item>Reset: Yielded node is gracefully reset (default for YieldSimpleCached)</item>
         ///   </list>
         /// </item>
-        /// <item><b>NodeCompletedPolicy:</b> Controls what happens when the yielded node completes
-        ///   <list type="bullet">
-        ///     <item>Return: Returns the child's status (Success/Failure) and stops</item>
-        ///     <item>Reset: Automatically resets child and continues running (looping behavior)</item>
-        ///   </list>
-        /// </item>
         /// <item><b>ConsumeTickOnStateChange:</b> Controls whether state changes happen immediately or wait for next tick
         ///   <list type="bullet">
         ///     <item>true: State changes consume a tick (wait until next tick to switch) (default)</item>
@@ -78,17 +72,6 @@ namespace ClosureAI
         /// // Automatically switches between states, resetting old behaviors cleanly
         /// </code>
         ///
-        /// <para><b>Example - Looping Patrol:</b></para>
-        /// <code>
-        /// YieldDynamic("Patrol Loop", controller =>
-        /// {
-        ///     controller.WithLooping(); // Auto-reset and continue when patrol completes
-        ///
-        ///     return _ => PatrolWaypoints();
-        /// });
-        /// // Patrol continues indefinitely, resetting and restarting when it completes
-        /// </code>
-        ///
         /// <para><b>Example - Dynamic Priority Selection:</b></para>
         /// <code>
         /// YieldDynamic("Dynamic Priority", controller =>
@@ -115,7 +98,7 @@ namespace ClosureAI
         ///
         /// <para><b>Technical Details:</b></para>
         /// <list type="bullet">
-        /// <item>Uses a state machine (STATE_DEFAULT, STATE_HANDLE_RESET_NODE, STATE_HANDLE_COMPLETED_RESET)</item>
+        /// <item>Uses a state machine (STATE_DEFAULT, STATE_HANDLE_RESET_NODE)</item>
         /// <item>Handles node switching gracefully with proper cleanup</item>
         /// <item>Supports async reset operations via ResetGracefully()</item>
         /// <item>Manages child node lifecycle (OnEnter/OnExit) automatically</item>
@@ -230,7 +213,6 @@ namespace ClosureAI
 
             const int STATE_DEFAULT = 0;
             const int STATE_HANDLE_RESET_NODE = 1;
-            const int STATE_HANDLE_COMPLETED_RESET = 2;
 
             //-----------------------------------------------------
 
@@ -273,55 +255,27 @@ namespace ClosureAI
                         {
                             _lastCompletedStatus.Value = status;
 
-                            if (controller.NodeCompletedPolicy == NodeCompletedPolicy.Return)
+                            // Check if state changed before completing - if so, continue in loop instead
+                            var nodeAfterCompletion = getNode(controller);
+                            if (nodeAfterCompletion != yieldedNode)
                             {
-                                // Check if state changed before completing - if so, continue in loop instead
-                                var nodeAfterCompletion = getNode(controller);
-                                if (nodeAfterCompletion != yieldedNode)
+                                // State changed, switch to new node instead of returning
+                                if (controller.NodeChangeResetPolicy == YieldResetPolicy.Reset)
                                 {
-                                    // State changed, switch to new node instead of returning
-                                    if (controller.NodeChangeResetPolicy == YieldResetPolicy.Reset)
-                                    {
-                                        _state.Value = STATE_HANDLE_RESET_NODE;
-                                        nodeToReset = yieldedNode;
-                                        nodeToChangeTo = nodeAfterCompletion;
-                                        workDone = true;
-                                    }
-                                    else
-                                    {
-                                        SetYieldedNode(nodeAfterCompletion);
-                                        workDone = true;
-                                    }
+                                    _state.Value = STATE_HANDLE_RESET_NODE;
+                                    nodeToReset = yieldedNode;
+                                    nodeToChangeTo = nodeAfterCompletion;
+                                    workDone = true;
                                 }
                                 else
                                 {
-                                    return status;
+                                    SetYieldedNode(nodeAfterCompletion);
+                                    workDone = true;
                                 }
                             }
-                            else if (controller.NodeCompletedPolicy == NodeCompletedPolicy.Reset)
+                            else
                             {
-                                // Handle reset immediately in the same frame
-                                if (yieldedNode != null && yieldedNode.ResetGracefully())
-                                {
-                                    // Node is reset, now check if we should switch to a different node
-                                    var nodeAfterReset = getNode(controller);
-
-                                    if (nodeAfterReset != yieldedNode)
-                                    {
-                                        // State changed, switch to the new node
-                                        SetYieldedNode(nodeAfterReset);
-                                    }
-                                    // Mark work done to continue the loop and potentially run the reset node
-                                    workDone = true;
-                                }
-                                else
-                                {
-                                    // If reset failed, use the state machine approach
-                                    _state.Value = STATE_HANDLE_COMPLETED_RESET;
-                                    nodeToReset = yieldedNode;
-                                    nodeToChangeTo = yieldedNode;
-                                    workDone = true;
-                                }
+                                return status;
                             }
                         }
                     }
@@ -339,26 +293,6 @@ namespace ClosureAI
                         }
                     }
 
-                    // Handle resetting a node for looping (fallback for when immediate reset fails)
-                    if (_state.Value == STATE_HANDLE_COMPLETED_RESET)
-                    {
-                        if (nodeToReset != null && nodeToReset.ResetGracefully())
-                        {
-                            // Node is reset, check if we should switch to a different node
-                            var nodeAfterReset = getNode(controller);
-
-                            if (nodeAfterReset != yieldedNode)
-                            {
-                                // State changed during reset, switch to new node
-                                SetYieldedNode(nodeAfterReset);
-                            }
-
-                            nodeToReset = null;
-                            nodeToChangeTo = null;
-                            _state.Value = STATE_DEFAULT;
-                            workDone = true;
-                        }
-                    }
 
                 }
                 while (!controller.ConsumeTickOnStateChange && workDone);
@@ -384,60 +318,6 @@ namespace ClosureAI
             return YieldDynamic("Yield Dynamic", setup);
         }
 
-        /// <summary>
-        /// Creates a looping yield node that automatically resets and continues when child nodes complete.
-        /// This is a convenience wrapper around YieldDynamic with looping enabled.
-        /// </summary>
-        /// <param name="name">The name of the yield node for debugging and visualization</param>
-        /// <param name="setup">A function that receives a YieldController and returns a function that returns the current node to yield</param>
-        /// <returns>A yield node configured for looping behavior</returns>
-        /// <remarks>
-        /// <para><b>Behavior:</b></para>
-        /// <list type="bullet">
-        /// <item>Automatically configures NodeCompletedPolicy to Reset (looping)</item>
-        /// <item>When the yielded node completes, it is reset and execution continues</item>
-        /// <item>Never returns Success or Failure - always returns Running</item>
-        /// <item>Useful for infinite loops and repeating behaviors</item>
-        /// </list>
-        ///
-        /// <para><b>Example:</b></para>
-        /// <code>
-        /// YieldLoop("Infinite Patrol", _ => PatrolBehavior());
-        /// // PatrolBehavior runs, completes, resets, and runs again indefinitely
-        /// </code>
-        ///
-        /// <para><b>Equivalent to:</b></para>
-        /// <code>
-        /// YieldDynamic(controller =>
-        /// {
-        ///     controller.WithLooping();
-        ///     return _ => MyBehavior();
-        /// });
-        /// </code>
-        /// </remarks>
-        public static YieldNode YieldLoop(string name, YieldSetupFunc setup)
-        {
-            return YieldDynamic(name, controller =>
-            {
-                controller.WithLooping();
-                return setup(controller);
-            });
-        }
-
-        /// <summary>
-        /// Creates a looping yield node that automatically resets and continues when child nodes complete.
-        /// Uses "Yield Loop" as the default name.
-        /// </summary>
-        /// <param name="setup">A function that receives a YieldController and returns a function that returns the current node to yield</param>
-        /// <returns>A yield node configured for looping behavior</returns>
-        /// <remarks>
-        /// This is a convenience overload that uses "Yield Loop" as the default node name.
-        /// See <see cref="YieldLoop(string, YieldSetupFunc)"/> for detailed behavior description.
-        /// </remarks>
-        public static YieldNode YieldLoop(YieldSetupFunc setup)
-        {
-            return YieldLoop("Yield Loop", setup);
-        }
 
         /// <summary>
         /// Creates a yield node that gracefully resets child nodes when switching between them.

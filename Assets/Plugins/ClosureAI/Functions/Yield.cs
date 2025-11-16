@@ -35,7 +35,6 @@ namespace ClosureAI
         /// <list type="bullet">
         /// <item>NodeChangeResetPolicy: Reset (gracefully resets old node when switching)</item>
         /// <item>NodeExitResetPolicy: Reset (resets child when yield exits)</item>
-        /// <item>NodeCompletedPolicy: Return (returns child's status when complete)</item>
         /// </list>
         ///
         /// <para><b>Common Use Cases:</b></para>
