@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static ClosureAI.AI;
 
 namespace ClosureAI.Samples.MemoryGame
@@ -43,7 +44,7 @@ namespace ClosureAI.Samples.MemoryGame
 
             //------------------------------------------------------------------
 
-            D.Condition("Holding F", () => Input.GetKey(KeyCode.F));
+            D.Condition("Holding F", () => Keyboard.current != null && Keyboard.current.fKey.isPressed);
             Sequence(() =>
             {
                 Wait(0.25f);
@@ -51,10 +52,10 @@ namespace ClosureAI.Samples.MemoryGame
                 Wait(0.25f);
             });
 
-            // D.Condition("Holding Space", () => Input.GetKey(KeyCode.Space));
+            // D.Condition("Holding Space", () => Keyboard.current != null && Keyboard.current.spaceKey.isPressed);
             _ = Reactive * Sequence(() =>
             {
-                Condition("Holding Space", () => Input.GetKey(KeyCode.Space));
+                Condition("Holding Space", () => Keyboard.current != null && Keyboard.current.spaceKey.isPressed);
                 Wait(0.25f);
                 Wait(0.25f);
                 Wait(0.25f);

@@ -1,5 +1,6 @@
 ﻿using ClosureAI.Samples.Shared;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static ClosureAI.AI;
 
 namespace ClosureAI.Samples.ContextAI
@@ -25,12 +26,17 @@ namespace ClosureAI.Samples.ContextAI
 
         private void Update()
         {
-            var moveInput = new Vector3
+            var keyboard = Keyboard.current;
+            var moveInput = Vector3.zero;
+
+            if (keyboard != null)
             {
-                x = Input.GetAxisRaw("Horizontal"),
-                z = Input.GetAxisRaw("Vertical")
+                if (keyboard.wKey.isPressed) moveInput.z += 1f;
+                if (keyboard.sKey.isPressed) moveInput.z -= 1f;
+                if (keyboard.aKey.isPressed) moveInput.x -= 1f;
+                if (keyboard.dKey.isPressed) moveInput.x += 1f;
+                moveInput = moveInput.normalized;
             }
-            .normalized;
 
             Pawn.MoveSpeed = 5.5f;
             Pawn.Move(moveInput);
