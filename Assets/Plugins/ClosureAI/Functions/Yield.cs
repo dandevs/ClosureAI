@@ -1,7 +1,5 @@
 #if UNITASK_INSTALLED
 using System;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace ClosureAI
 {
