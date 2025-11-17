@@ -108,7 +108,7 @@ namespace ClosureAI
             /// MyChildNode();
             /// </code>
             /// </remarks>
-            public static DecoratorNode Reset() => Decorator("Reset", () =>
+            public static DecoratorNode ResetOnEnter() => Decorator("Reset", () =>
             {
                 var node = (DecoratorNode)CurrentNode;
 

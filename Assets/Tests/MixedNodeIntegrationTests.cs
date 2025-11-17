@@ -70,7 +70,7 @@ namespace ClosureAI.Tests
             var sequence = Sequence(() =>
             {
                 D.While(() => counter < 2);
-                D.Reset();
+                D.ResetOnEnter();
                 Sequence(() =>
                 {
                     Do(() =>
