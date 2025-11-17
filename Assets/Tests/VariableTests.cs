@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NUnit.Framework;
+using UnityEngine;
 using static ClosureAI.AI;
 
 namespace ClosureAI.Tests
@@ -119,6 +120,80 @@ namespace ClosureAI.Tests
             // allowReEnter (line 312) only calls OnEnter, NOT variable initialization
             Assert.AreEqual(1, initCount, "Variable should NOT reinitialize on allowReEnter (only on Status.None)");
             Assert.AreEqual(100, capturedValues[1], "Variable should keep same value after allowReEnter");
+        }
+
+        [Test]
+        public void Variable_ResetImmediately_ReinitializesOnNextActivation()
+        {
+            var initCount = 0;
+            var capturedValues = new List<int>();
+
+            var node = Leaf("Variable Reset", () =>
+            {
+                var myVar = Variable(() =>
+                {
+                    initCount++;
+                    return initCount * 5;
+                });
+
+                OnBaseTick(() =>
+                {
+                    capturedValues.Add(myVar.Value);
+                    return Status.Success;
+                });
+            });
+
+            TickNode(node);
+            Assert.AreEqual(1, initCount, "Initializer should have run once");
+            CollectionAssert.AreEqual(new[] { 5 }, capturedValues);
+
+            node.ResetImmediately();
+            node.Tick(out _);
+
+            Assert.AreEqual(2, initCount, "Resetting to None should re-run variable initializer");
+            CollectionAssert.AreEqual(new[] { 5, 10 }, capturedValues);
+        }
+
+        [Test]
+        public void Variable_ReactiveInvalidation_ReinitializesWhenParentResets()
+        {
+            var gate = true;
+            var initCount = 0;
+            var captured = new List<int>();
+
+            var node = Reactive * Sequence("Root", () =>
+            {
+                WaitUntil("Gate", () => gate);
+
+                Leaf("VariableUser", () =>
+                {
+                    var scoped = Variable(() =>
+                    {
+                        initCount++;
+                        return initCount * 100;
+                    });
+
+                    OnBaseTick(() =>
+                    {
+                        captured.Add(scoped.Value);
+                        return Status.Success;
+                    });
+                });
+
+                JustRunning();
+            });
+
+            TickNode(node);
+            Assert.AreEqual(1, initCount, "Variable should initialize on first activation");
+
+            gate = false;
+            node.Tick();
+
+            gate = true;
+            node.Tick();
+
+            Assert.AreEqual(2, initCount, "Reactive invalidation should reset downstream nodes, reinitializing their variables");
+            CollectionAssert.AreEqual(new[] { 100, 200 }, captured);
         }
 
         #endregion

@@ -67,8 +67,6 @@ namespace ClosureAI.Tests
 
             var status = TickNode(sequence);
 
-            // NOTE: Current implementation ignores child failures and always returns Success
-            // This is a known bug - documentation says it should return Failure, but implementation doesn't track child status
             Assert.AreEqual(Status.Success, status, "SequenceAlways returns Success even when children fail (implementation bug)");
             Assert.AreEqual(new[] { 1, 2, 3 }, executionOrder.ToArray(),
                 "All children should execute even after a failure");

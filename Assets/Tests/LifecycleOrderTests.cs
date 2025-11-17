@@ -310,5 +310,55 @@ namespace ClosureAI.Tests
             Assert.Less(events.IndexOf("inner-exit"), events.IndexOf("root-exit"),
                 "Root exit should be the final cleanup step");
         }
+
+        [Test]
+        public void SubStatus_TracksRunningDoneAndReset()
+        {
+            var tickCount = 0;
+
+            var leaf = Leaf("SubStatus Leaf", () =>
+            {
+                OnBaseTick(() =>
+                {
+                    tickCount++;
+                    return tickCount >= 2 ? Status.Success : Status.Running;
+                });
+            });
+
+            leaf.Tick(out _);
+            Assert.AreEqual(SubStatus.Running, leaf.SubStatus, "Leaf should report Running substatus while executing");
+
+            leaf.Tick(out _);
+            Assert.AreEqual(SubStatus.Done, leaf.SubStatus, "Leaf should be Done after finishing");
+
+            leaf.ResetImmediately();
+            Assert.AreEqual(SubStatus.None, leaf.SubStatus, "Reset should clear substatus to None");
+        }
+
+        [Test]
+        public void AllowReEnter_ReplaysEnterWithoutOnEnabled()
+        {
+            var enabledCount = 0;
+            var enterCount = 0;
+
+            var leaf = Leaf("ReEnter Leaf", () =>
+            {
+                OnEnabled(() => enabledCount++);
+                OnEnter(() => enterCount++);
+                OnBaseTick(() => Status.Success);
+            });
+
+            leaf.Tick();
+            Assert.AreEqual(1, enabledCount, "First activation should call OnEnabled once");
+            Assert.AreEqual(1, enterCount, "First activation should call OnEnter once");
+
+            leaf.Tick(out _, allowReEnter: true);
+
+            Assert.AreEqual(1, enabledCount, "allowReEnter must not trigger OnEnabled again");
+            Assert.AreEqual(2, enterCount, "allowReEnter should call OnEnter again");
+
+            leaf.Tick(out _, allowReEnter: true);
+            Assert.AreEqual(SubStatus.Done, leaf.SubStatus, "Leaf should complete normally after re-entry");
+        }
     }
 }

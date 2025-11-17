@@ -484,13 +484,13 @@ namespace ClosureAI.Tests
         #region Complex Reset Scenarios
 
         [UnityTest]
-        public IEnumerator Sequence_PartiallyComplete_ResetsClearly()
+        public IEnumerator SequenceAlways_PartiallyComplete_ResetsClearly()
         {
             var child1DisabledCount = 0;
             var child2DisabledCount = 0;
             var child3DisabledCount = 0;
 
-            var sequence = Sequence(() =>
+            var sequence = SequenceAlways(() =>
             {
                 Leaf("Child1", () =>
                 {
@@ -501,33 +501,28 @@ namespace ClosureAI.Tests
                 Leaf("Child2", () =>
                 {
                     OnDisabled(() => child2DisabledCount++);
-                    OnBaseTick(() => Status.Success);
+                    OnBaseTick(() => Status.Failure);
                 });
 
                 Leaf("Child3", () =>
                 {
                     OnDisabled(() => child3DisabledCount++);
                     OnBaseTick(() => Status.Running);
+                    OnDisabled(() => Debug.Log("Disabling Child 3"));
                 });
             });
 
             // Complete Child1 and Child2, start Child3
             sequence.Tick();
-            sequence.Tick();
 
             // Reset
-            sequence.ResetImmediately();
-
-            while (sequence.Resetting)
+            while (!sequence.ResetImmediately())
                 yield return null;
 
-            // Child1 and Child2 are Done, so they call OnDisabled during reset
-            // Child3 is Running, so ResetImmediately sets Resetting=true and cancels it
-            // When the Sequence exits its children, Child3 is already reset to None
-            // So Child3 does NOT call OnDisabled (it's already been reset immediately)
+            // All children should invoke OnDisabled during reset, even if they were still running
             Assert.AreEqual(1, child1DisabledCount, "Child1 should be disabled");
             Assert.AreEqual(1, child2DisabledCount, "Child2 should be disabled");
-            Assert.AreEqual(0, child3DisabledCount, "Child3 is reset immediately without OnDisabled");
+            Assert.AreEqual(1, child3DisabledCount, "Child3 should also receive OnDisabled while being cancelled");
         }
 
         [UnityTest]

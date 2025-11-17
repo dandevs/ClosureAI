@@ -35,49 +35,82 @@ public class TestBox : MonoBehaviour
     void Start()
     {
         Tree?.ResetImmediately();
-        Tree = Reactive * SequenceAlways("Hi", () =>
+        // Tree = Reactive * SequenceAlways("Hi", () =>
+        // {
+        //     D.While(() => Counter < 100);
+        //     D.Reset();
+        //     Sequence(() =>
+        //     {
+        //         Wait(0.01f);
+        //         Do(() => Counter++);
+        //     });
+
+        //     WaitUntil("Hi", () => Zero, () =>
+        //     {
+        //         OnEnabled(() => Debug.Log("Enabled Hi"));
+        //         OnDisabled(() => Debug.Log("Disabled Hi"));
+        //     });
+
+        //     _ = Reactive * SequenceAlways("Root", () =>
+        //     {
+        //         Sequence("WHAT", () =>
+        //         {
+        //             OnEnabled(() => Debug.Log("Enabled WHAT"));
+        //             OnDisabled(() => Debug.Log("Disabled WHAT"));
+
+        //             Condition("A", () => A, () =>
+        //             {
+        //                 OnExit(async ct =>
+        //                 {
+        //                     Debug.Log("OK");
+        //                     await UniTask.WaitForSeconds(1.5f, cancellationToken: ct);
+        //                     Debug.Log("DOPNE");
+        //                 });
+        //             });
+        //             Wait(0.1f);
+        //         });
+
+        //         Sequence("Hmm", () =>
+        //         {
+        //             Condition("B", () => B);
+        //             Wait(1f);
+        //         });
+
+        //         JustRunning();
+        //     });
+        // });
+
+        Tree = Reactive * SequenceAlways(() =>
         {
-            D.While(() => Counter < 100);
-            D.Reset();
-            Sequence(() =>
-            {
-                Wait(0.01f);
-                Do(() => Counter++);
-            });
+            var xs = 0;
 
-            WaitUntil("Hi", () => Zero, () =>
+            // WaitUntil(() => A);
+            D.Condition(() => A);
+            Leaf(() =>
             {
-                OnEnabled(() => Debug.Log("Enabled Hi"));
-                OnDisabled(() => Debug.Log("Disabled Hi"));
-            });
-
-            _ = Reactive * SequenceAlways("Root", () =>
-            {
-                Sequence("WHAT", () =>
+                var x = Variable(() =>
                 {
-                    OnEnabled(() => Debug.Log("Enabled WHAT"));
-                    OnDisabled(() => Debug.Log("Disabled WHAT"));
+                    xs++;
+                    return xs;
+                });
 
-                    Condition("A", () => A, () =>
+                OnBaseTick(async (ct, tick) =>
+                {
+                    try
                     {
-                        OnExit(async ct =>
-                        {
-                            Debug.Log("OK");
-                            await UniTask.WaitForSeconds(1.5f, cancellationToken: ct);
-                            Debug.Log("DOPNE");
-                        });
-                    });
-                    Wait(0.1f);
+                        while (true)
+                            await tick();
+                    }
+                    finally
+                    {
+                        Debug.Log("Finished");
+                    }
                 });
 
-                Sequence("Hmm", () =>
-                {
-                    Condition("B", () => B);
-                    Wait(1f);
-                });
-
-                JustRunning();
+                OnDisabled(() => Debug.Log("Whaat"));
             });
+
+            JustRunning();
         });
     }
 

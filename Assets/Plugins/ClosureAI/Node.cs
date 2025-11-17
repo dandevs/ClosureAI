@@ -679,6 +679,13 @@ namespace ClosureAI
                 if (SubStatus != SubStatus.Exiting)
                 {
                     SubStatus = SubStatus.Exiting;
+
+                    if (Status == Status.Running && OnAnyTick != null)
+                    {
+                        CancelCancellationTokenSource();
+                        _cancellationTokenSource = null;
+                    }
+
                     ExecuteOnExitMethods(continuation, suppressCancellationThrow).Forget();
                 }
 

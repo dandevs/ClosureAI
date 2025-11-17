@@ -88,12 +88,11 @@ namespace ClosureAI.Tests
             Assert.AreEqual(Status.Running, TickOnce(leaf), "Leaf should begin running on first tick");
             Assert.AreEqual(Status.Running, TickOnce(leaf), "Leaf remains running while awaiting ticks");
 
-            var didReset = leaf.ResetImmediately();
+            leaf.ResetImmediately();
 
             var guard = 0;
-            while (!leaf.ResetImmediately() && guard++ < 20)
+            while (leaf.Resetting && guard++ < 20)
             {
-                leaf.Tick();
                 yield return null;
             }
 
@@ -103,6 +102,130 @@ namespace ClosureAI.Tests
             Assert.IsTrue(exitCompleted, "OnExit coroutine should complete during reset");
             Assert.AreEqual(Status.None, leaf.Status, "After reset the node status should be cleared");
             Assert.AreEqual(SubStatus.None, leaf.SubStatus, "After reset the node sub-status should be cleared");
+        }
+
+        [UnityTest]
+        public IEnumerator ReactiveInvalidation_CancelsAsyncChild()
+        {
+            var gate = true;
+            var cancellationObserved = false;
+            var exitCompleted = false;
+
+            var tree = Reactive * Sequence("Root", () =>
+            {
+                Condition("Gate", () => gate);
+
+                Leaf("AsyncChild", () =>
+                {
+                    OnBaseTick(async (ct, tick) =>
+                    {
+                        try
+                        {
+                            while (true)
+                                await tick();
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            cancellationObserved = true;
+                        }
+
+                        return Status.Success;
+                    });
+
+                    OnExit(async ct =>
+                    {
+                        try
+                        {
+                            await UniTask.Delay(25, cancellationToken: ct);
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            // Cancellation during exit is expected when the reactive parent invalidates
+                        }
+                        finally
+                        {
+                            exitCompleted = true;
+                        }
+                    });
+                });
+            });
+
+            tree.Tick(out _);
+            tree.Tick(out _);
+
+            gate = false;
+
+            var guard = 0;
+            while (!cancellationObserved && guard++ < 50)
+            {
+                tree.Tick(out _);
+                yield return null;
+            }
+
+            Assert.IsTrue(cancellationObserved, "Child should observe cancellation when upstream node invalidates");
+
+            guard = 0;
+            while (!exitCompleted && guard++ < 50)
+            {
+                tree.Tick(out _);
+                yield return null;
+            }
+
+            Assert.IsTrue(exitCompleted, "Async OnExit should complete even when cancelled");
+        }
+
+        [UnityTest]
+        public IEnumerator ConditionDecorator_CancelsChildWhenGateCloses()
+        {
+            var gate = true;
+            var cancellationObserved = false;
+
+            var sequence = Sequence("Conditioned Async", () =>
+            {
+                D.AlwaysSucceed();
+                D.Condition(() => gate);
+                Leaf("ConditionalAsync", () =>
+                {
+                    OnBaseTick(async (ct, tick) =>
+                    {
+                        Debug.Log("Hello WE STARTING");
+
+                        try
+                        {
+                            while (true)
+                            {
+                                Debug.Log("Hey");
+                                await tick();
+                            }
+                        }
+                        finally
+                        {
+                            Debug.Log("We out here");
+                            cancellationObserved = true;
+                        }
+
+                        return Status.Success;
+                    });
+                });
+
+                Do(() => Debug.Log("End of sequence") );
+            });
+
+            sequence.Tick(out _);
+            gate = false;
+
+            yield return null;
+            yield return null;
+            yield return null;
+
+            var guard = 0;
+            while (!cancellationObserved && guard++ < 50)
+            {
+                sequence.Tick(out _);
+                yield return null;
+            }
+
+            Assert.IsTrue(cancellationObserved, "Decorator should cancel child when the gate closes");
         }
 
         private static Status TickOnce(Node node)

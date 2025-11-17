@@ -106,6 +106,85 @@ namespace ClosureAI.Tests
         #region Reactive Invalidation Tests
 
         [Test]
+        public void ReactiveCondition_ToggleInvalidatesAndReenters()
+        {
+            var gate = true;
+            var conditionalEnters = 0;
+            var tailEnters = 0;
+            var tailExits = 0;
+
+            var tree = Reactive * SequenceAlways("Root", () =>
+            {
+                D.Condition(() => gate);
+                Leaf("Conditional", () =>
+                {
+                    OnEnter(() => conditionalEnters++);
+                    OnBaseTick(() => Status.Success);
+                });
+
+                Leaf("Tail", () =>
+                {
+                    OnEnter(() => tailEnters++);
+                    OnExit(() => tailExits++);
+                    OnBaseTick(() => Status.Running);
+                });
+
+                JustRunning();
+            });
+
+            tree.Tick(out _);
+            Assert.AreEqual(1, conditionalEnters, "Conditional child should enter when gate starts true");
+            Assert.AreEqual(1, tailEnters, "Tail node should begin running after conditional succeeds");
+
+            gate = false;
+            tree.Tick(out _);
+
+            Assert.AreEqual(1, conditionalEnters, "Conditional should not re-enter while gate is false");
+            Assert.AreEqual(1, tailExits, "Tail node should exit when gate toggles false and reactive sequence invalidates");
+
+            gate = true;
+            tree.Tick();
+            tree.Tick();
+
+            Assert.AreEqual(2, conditionalEnters, "Conditional should re-enter after gate becomes true again");
+            Assert.AreEqual(2, tailEnters, "Tail node should re-enter after reactive invalidation completes");
+        }
+
+        [Test]
+        public void ReactiveCondition_ChildInvalidationTriggersDecoratorInvalidation()
+        {
+            var atEnd = false;
+            var enterCount = 0;
+
+            var tree = Reactive * SequenceAlways("Root", () =>
+            {
+                D.Condition(() => true);
+                Leaf("Invalidating Child", () =>
+                {
+                    OnEnter(() => enterCount++);
+                    OnInvalidCheck(() => true);
+                    OnBaseTick(() => Status.Success);
+                });
+
+                JustRunning(() =>
+                {
+                    OnEnter(() => atEnd = true);
+                });
+            });
+
+            tree.Tick();
+            Assert.AreEqual(1, enterCount, "Child should enter during first evaluation");
+
+            while (!atEnd)
+                tree.Tick();
+
+            tree.Tick();
+            tree.Tick();
+
+            Assert.AreEqual(2, enterCount, "Child should re-enter when it invalidates itself under a true condition");
+        }
+
+        [Test]
         public void ReactiveSequence_InvalidatedChild_ResetsSubsequentNodes()
         {
             var condition = true;
