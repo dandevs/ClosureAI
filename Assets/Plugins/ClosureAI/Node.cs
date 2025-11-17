@@ -681,9 +681,12 @@ namespace ClosureAI
             {
                 if (node.Resetting)
                 {
-                    node.SubStatus = SubStatus.None;
-                    node.Status = Status.None;
-                    node.Resetting = false;
+                    node.ExecuteOnDisableMethods(static node =>
+                    {
+                        node.SubStatus = SubStatus.None;
+                        node.Status = Status.None;
+                        node.Resetting = false;
+                    });
                 }
                 else
                     node.SubStatus = SubStatus.Done;
