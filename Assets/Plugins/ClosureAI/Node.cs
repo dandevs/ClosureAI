@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using ClosureAI.Utilities;
-using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -72,6 +71,7 @@ namespace ClosureAI
                 IsReactive = 1 << 0,
                 Resetting = 1 << 1,
                 ResettingGracefully = 1 << 2,
+                Active = 1 << 3,
             }
 
             [SerializeField] private NodeFlags _flags;
@@ -160,7 +160,16 @@ namespace ClosureAI
                 }
             }
 
-            public bool Active { get; private set; }
+            public bool Active
+            {
+                get => (_flags & NodeFlags.Active) != 0;
+                private set
+                {
+                    if (value) _flags |= NodeFlags.Active;
+                    else _flags &= ~NodeFlags.Active;
+                }
+            }
+
             public bool BlockReEnter { get; private set; }
 
             public readonly List<Action> OnTicks = new();
