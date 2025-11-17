@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -247,6 +248,30 @@ namespace ClosureAI.Tests
                 "New token after reset should not be cancelled");
         }
 
+        [UnityTest]
+        public IEnumerator CancellationToken_ResetGracefullyCancelsOldToken()
+        {
+            var node = Leaf("GracefulToken", () =>
+            {
+                OnBaseTick(() => Status.Running);
+            });
+
+            node.Tick();
+            var firstToken = node.GetCancellationToken();
+            Assert.IsFalse(firstToken.IsCancellationRequested);
+
+            node.ResetGracefully();
+
+            while (node.Resetting)
+                yield return null;
+
+            Assert.IsTrue(firstToken.IsCancellationRequested, "Graceful reset should cancel active token");
+
+            node.Tick();
+            var secondToken = node.GetCancellationToken();
+            Assert.IsFalse(secondToken.IsCancellationRequested, "Fresh activation should provide uncancelled token");
+        }
+
         #endregion
 
         #region Nested Composite Reset
@@ -392,6 +417,93 @@ namespace ClosureAI.Tests
 
             Assert.AreEqual(SubStatus.None, node.SubStatus);
             CollectionAssert.Contains(events, "disabled");
+        }
+
+        [UnityTest]
+        public IEnumerator ResetDuringSucceeding_CancelsAsyncSuccess()
+        {
+            var successStarted = false;
+            var successCancelled = false;
+            var exitCalled = false;
+            var disabledCalled = false;
+
+            var node = Leaf("Reset Succeeding", () =>
+            {
+                OnBaseTick(() => Status.Success);
+
+                OnSuccess(async ct =>
+                {
+                    successStarted = true;
+                    try
+                    {
+                        await UniTask.Delay(200, cancellationToken: ct);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        successCancelled = true;
+                        throw;
+                    }
+                });
+
+                OnExit(() => exitCalled = true);
+                OnDisabled(() => disabledCalled = true);
+            });
+
+            node.Tick();
+            Assert.AreEqual(SubStatus.Succeeding, node.SubStatus, "Node should be in Succeeding before reset");
+            Assert.IsTrue(successStarted, "OnSuccess should have started before reset");
+
+            node.ResetImmediately();
+
+            while (node.Resetting)
+                yield return null;
+
+            Assert.IsTrue(successCancelled, "Reset should cancel the pending OnSuccess task");
+            Assert.IsTrue(exitCalled, "OnExit should run even when reset during Succeeding");
+            Assert.IsTrue(disabledCalled, "OnDisabled should fire during reset");
+            Assert.AreEqual(Status.None, node.Status);
+            Assert.AreEqual(SubStatus.None, node.SubStatus);
+        }
+
+        [UnityTest]
+        public IEnumerator ResetDuringFailing_CancelsAsyncFailure()
+        {
+            var failureStarted = false;
+            var failureCancelled = false;
+            var exitCalled = false;
+            var disabledCalled = false;
+
+            var node = Leaf("Reset Failing", () =>
+            {
+                OnBaseTick(() => Status.Failure);
+
+                OnFailure(async ct =>
+                {
+                    failureStarted = true;
+                    await UniTask.Delay(100, cancellationToken: ct);
+                    failureCancelled = true;
+                });
+
+                OnExit(() => exitCalled = true);
+                OnDisabled(() => disabledCalled = true);
+            });
+
+            node.Tick();
+            Assert.AreEqual(SubStatus.Failing, node.SubStatus, "Node should be in Failing before reset");
+            Assert.IsTrue(failureStarted, "OnFailure should have started before reset");
+
+            node.ResetGracefully();
+
+            while (!node.ResetGracefully())
+                yield return null;
+
+            yield return null;
+
+            Assert.IsTrue(failureCancelled, "Reset should cancel the pending OnFailure task");
+            Assert.IsTrue(exitCalled, "OnExit should still run when reset during Failing");
+            Assert.IsTrue(disabledCalled, "OnDisabled should fire during graceful reset");
+            Assert.AreEqual(Status.None, node.Status);
+            Assert.AreEqual(SubStatus.None, node.SubStatus);
         }
 
         #endregion

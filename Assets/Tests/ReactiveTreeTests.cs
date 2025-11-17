@@ -292,6 +292,45 @@ namespace ClosureAI.Tests
                 "Re-entry should call OnEnter but NOT OnEnabled");
         }
 
+        [Test]
+        public void ReactiveSequence_DoneChildInvalidation_ReplaysTail()
+        {
+            var shouldInvalidate = false;
+            var headEnterCount = 0;
+            var tailEnterCount = 0;
+            var tailExitCount = 0;
+
+            var sequence = Reactive * Sequence(() =>
+            {
+                Leaf("Head", () =>
+                {
+                    OnInvalidCheck(() => shouldInvalidate);
+                    OnEnter(() => headEnterCount++);
+                    OnBaseTick(() => Status.Success);
+                });
+
+                Leaf("Tail", () =>
+                {
+                    OnEnter(() => tailEnterCount++);
+                    OnExit(() => tailExitCount++);
+                    OnBaseTick(() => Status.Running);
+                });
+            });
+
+            sequence.Tick();
+            Assert.AreEqual(1, headEnterCount, "Head should run once initially");
+            Assert.AreEqual(1, tailEnterCount, "Tail should start running after head success");
+
+            shouldInvalidate = true;
+            sequence.Tick();
+            sequence.Tick();
+            shouldInvalidate = false;
+
+            Assert.AreEqual(2, headEnterCount, "Head should re-enter after invalidation even from Done state");
+            Assert.AreEqual(2, tailEnterCount, "Tail should re-enter after upstream invalidation");
+            Assert.AreEqual(1, tailExitCount, "Tail must exit before being re-run");
+        }
+
         [UnityTest]
         public IEnumerator ReactiveSequence_GracefulReset_AwaitsAsyncExit()
         {

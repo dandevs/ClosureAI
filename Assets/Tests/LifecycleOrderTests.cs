@@ -1,5 +1,9 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using NUnit.Framework;
+using UnityEngine.TestTools;
 using static ClosureAI.AI;
 
 namespace ClosureAI.Tests
@@ -359,6 +363,71 @@ namespace ClosureAI.Tests
 
             leaf.Tick(out _, allowReEnter: true);
             Assert.AreEqual(SubStatus.Done, leaf.SubStatus, "Leaf should complete normally after re-entry");
+        }
+
+        [UnityTest]
+        public IEnumerator AllowReEnter_IgnoredWhileExitingUntilCleanupFinishes()
+        {
+            var enterCount = 0;
+            var exitStarted = false;
+
+            var leaf = Leaf("SlowExit", () =>
+            {
+                OnEnter(() => enterCount++);
+                OnBaseTick(() => Status.Success);
+                OnExit(async ct =>
+                {
+                    exitStarted = true;
+                    await UniTask.Delay(100, cancellationToken: ct);
+                });
+            });
+
+            leaf.Tick();
+
+            Assert.AreEqual(Status.Running, leaf.Status, "First tick should begin success flow");
+            Assert.AreEqual(SubStatus.Exiting, leaf.SubStatus, "Leaf should be in Exiting while async OnExit runs");
+            Assert.IsTrue(exitStarted, "OnExit should have started its async work");
+
+            leaf.Tick(out _, allowReEnter: true);
+            Assert.AreEqual(1, enterCount, "allowReEnter must not re-enter while Exiting is in progress");
+
+            while (leaf.SubStatus == SubStatus.Exiting)
+                yield return null;
+
+            leaf.Tick(out _, allowReEnter: true);
+            leaf.Tick(out _, allowReEnter: true);
+            Assert.AreEqual(2, enterCount, "allowReEnter should work once node reaches Done");
+        }
+
+        [UnityTest]
+        public IEnumerator Exit_SuppressCancellationStillExecutesContinuation()
+        {
+            var continuationRan = false;
+
+            var leaf = Leaf("ExitTest", () =>
+            {
+                OnBaseTick(() => Status.Running);
+                OnExit(async ct =>
+                {
+                    await UniTask.Yield();
+                    throw new OperationCanceledException();
+                });
+            });
+
+            leaf.Tick();
+            Assert.AreEqual(SubStatus.Running, leaf.SubStatus, "Leaf should be running before exit");
+
+            leaf.Exit(node =>
+            {
+                continuationRan = true;
+                node.SubStatus = SubStatus.Done;
+            }, suppressCancellationThrow: true);
+
+            while (leaf.SubStatus == SubStatus.Exiting)
+                yield return null;
+
+            Assert.IsTrue(continuationRan, "Continuation should run even when OnExit throws OperationCanceledException");
+            Assert.AreEqual(SubStatus.Done, leaf.SubStatus, "Exit should transition node to Done");
         }
     }
 }

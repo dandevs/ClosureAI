@@ -385,9 +385,13 @@ namespace ClosureAI
                             {
                                 if (node.Resetting)
                                 {
-                                    node.SubStatus = SubStatus.None;
-                                    node.Status = Status.None;
-                                    node.Resetting = false;
+                                    node.ExecuteOnDisableMethods(static node =>
+                                    {
+                                        node.SubStatus = SubStatus.None;
+                                        node.Status = Status.None;
+                                        node.Resetting = false;
+                                        node.Active = false;
+                                    });
                                 }
                                 else
                                 {
@@ -414,9 +418,13 @@ namespace ClosureAI
                             {
                                 if (node.Resetting)
                                 {
-                                    node.SubStatus = SubStatus.None;
-                                    node.Status = Status.None;
-                                    node.Resetting = false;
+                                    node.ExecuteOnDisableMethods(static node =>
+                                    {
+                                        node.SubStatus = SubStatus.None;
+                                        node.Status = Status.None;
+                                        node.Resetting = false;
+                                        node.Active = false;
+                                    });
                                 }
                                 else
                                 {
@@ -499,6 +507,7 @@ namespace ClosureAI
                                 node.SubStatus = SubStatus.None;
                                 node.Status = Status.None;
                                 node.Active = false;
+                                node.Resetting = false;
                             });
                         }
                         else
