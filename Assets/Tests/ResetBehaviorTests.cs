@@ -508,7 +508,6 @@ namespace ClosureAI.Tests
                 {
                     OnDisabled(() => child3DisabledCount++);
                     OnBaseTick(() => Status.Running);
-                    OnDisabled(() => Debug.Log("Disabling Child 3"));
                 });
             });
 

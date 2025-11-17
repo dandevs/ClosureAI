@@ -188,27 +188,19 @@ namespace ClosureAI.Tests
                 {
                     OnBaseTick(async (ct, tick) =>
                     {
-                        Debug.Log("Hello WE STARTING");
-
                         try
                         {
                             while (true)
                             {
-                                Debug.Log("Hey");
                                 await tick();
                             }
                         }
                         finally
                         {
-                            Debug.Log("We out here");
                             cancellationObserved = true;
                         }
-
-                        return Status.Success;
                     });
                 });
-
-                Do(() => Debug.Log("End of sequence") );
             });
 
             sequence.Tick(out _);
