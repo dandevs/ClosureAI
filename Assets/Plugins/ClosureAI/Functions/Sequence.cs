@@ -72,6 +72,12 @@ namespace ClosureAI
 
             OnExit(ct => ExitNodesSequential(node.Children, node.Children.Count - 1, 0));
 
+            OnEnter(() =>
+            {
+                for (var i = node.Children.Count - 1; i > _currentIndex.Value; i--)
+                    node.Children[i].ResetImmediately();
+            });
+
             OnInvalidCheck(() =>
             {
                 if (node.Children.AnyInvalidToIndex(_currentIndex.Value, out var index))

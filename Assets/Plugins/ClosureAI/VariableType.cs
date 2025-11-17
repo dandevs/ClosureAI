@@ -160,7 +160,7 @@ namespace ClosureAI
         public static VariableType<T> Variable<T>(Func<T> getValue)
         {
             var variable = Variable<T>();
-            variable.OnInitialize(() => variable.Value = getValue());
+            variable.OnInitialize(() => variable.Value = getValue != null ? getValue() : default);
             return variable;
         }
     }

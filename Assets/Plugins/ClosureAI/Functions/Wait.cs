@@ -65,7 +65,7 @@ namespace ClosureAI
             SetNodeName(name);
 
             OnEnter(() => timeLastTick = Time.timeAsDouble);
-            // OnDeserialize(() => timeLastTick = Time.timeAsDouble);
+            OnDeserialize(() => timeLastTick = Time.timeAsDouble);
 
             OnBaseTick(() =>
             {

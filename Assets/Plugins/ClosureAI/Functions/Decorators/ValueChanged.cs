@@ -134,7 +134,10 @@ namespace ClosureAI
                         currentValue.Value = value();
 
                         if (!EqualityComparer<T>.Default.Equals(previousValue.Value, currentValue.Value))
+                        {
+                            previousValue.Value = currentValue.Value;
                             return true;
+                        }
 
                         previousValue.Value = currentValue.Value;
                         return false;
@@ -144,8 +147,10 @@ namespace ClosureAI
 
                     OnBaseTick(() =>
                     {
-                        node.Child.Tick(out var status);
-                        return status;
+                        if (node.Child.Tick(out var status))
+                            return status;
+                        else
+                            return Status.Running;
                     });
 
                     setup?.Invoke();

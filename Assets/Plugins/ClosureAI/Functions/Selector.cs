@@ -70,6 +70,11 @@ namespace ClosureAI
             var _currentIndex = Variable(static () => 0);
 
             SetNodeName(name);
+            OnEnter(() =>
+            {
+                for (var i = node.Children.Count - 1; i > _currentIndex.Value; i--)
+                    node.Children[i].ResetImmediately();
+            });
             OnExit(ct => ExitNodesSequential(node.Children, node.Children.Count - 1, 0));
             OnInvalidCheck(() =>
             {
