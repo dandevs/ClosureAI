@@ -57,7 +57,6 @@ namespace ClosureAI
         public static LeafNode JustRunning(string name, Action setup = null) => Leaf("Just Running", () =>
         {
             SetNodeName(name);
-            AlwaysInvalidate();
             OnBaseTick(() => Status.Running);
             setup?.Invoke();
         });

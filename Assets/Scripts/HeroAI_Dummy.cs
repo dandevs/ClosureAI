@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ClosureAI.Samples;
 using Cysharp.Threading.Tasks;
@@ -9,6 +10,11 @@ public class HeroAI_Dummy : MonoBehaviour
     public Node AI;
 
     public List<GameObject> MockTargets;
+
+    void FooTest(Func<int> foo)
+    {
+
+    }
 
     protected virtual void Awake() => AI = Reactive * SequenceAlways("Hero AI", () =>
     {
@@ -22,6 +28,8 @@ public class HeroAI_Dummy : MonoBehaviour
             "pebble",
             "golden-key"
         });
+
+        FooTest(coins);
 
         Sequence("Fight Target", () =>
         {
@@ -69,9 +77,9 @@ public class HeroAI_Dummy : MonoBehaviour
         {
             OnEnter(async ct =>
             {
-                var randBetween1_2 = Random.Range(2f, 3.5f);
+                var randBetween1_2 = UnityEngine.Random.Range(2f, 3.5f);
                 await UniTask.WaitForSeconds(randBetween1_2, cancellationToken: ct);
-                targetInSight.Value = MockTargets.Count > 0 ? MockTargets[Random.Range(0, MockTargets.Count)] : null;
+                targetInSight.Value = MockTargets.Count > 0 ? MockTargets[UnityEngine.Random.Range(0, MockTargets.Count)] : null;
             });
         });
     });

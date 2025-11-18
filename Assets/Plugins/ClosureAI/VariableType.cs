@@ -112,14 +112,12 @@ namespace ClosureAI
                 }
             }
 
-            // public static implicit operator T(VariableType<T> variable) => variable.Value;
             public static implicit operator Func<T>(VariableType<T> variable) => variable.Fn;
-            // public static implicit operator VariableType<T>(Func<T> variable) => Variable(variable);
         }
 
         //********************************************************************************************
 
-        public static VariableType<T> Variable<T>(T value = default, Func<T> enterValue = null, Func<T> exitValue = null)
+        public static VariableType<T> Variable<T>(T value = default, Func<T> initializeValue = null)
         {
             var node = CurrentNode;
 
@@ -144,11 +142,8 @@ namespace ClosureAI
                 node.Variables ??= new();
                 node.Variables.Add(variable);
 
-                if (enterValue != null)
-                    variable.OnInitialize(() => variable.Value = enterValue());
-
-                if (exitValue != null)
-                    OnExit(() => variable.Value = exitValue());
+                if (initializeValue != null)
+                    variable.OnInitialize(() => variable.Value = initializeValue());
 
                 return variable;
             }
@@ -156,7 +151,6 @@ namespace ClosureAI
                 throw new Exception("Variable must be inside a node");
         }
 
-        public static VariableType<T> Variable<T>(Func<T> enterValue, Func<T> exitValue) => Variable(default, enterValue, exitValue);
         public static VariableType<T> Variable<T>(Func<T> getValue)
         {
             var variable = Variable<T>();
