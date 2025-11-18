@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using ClosureAI.Samples;
+using ClosureBT.Samples;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
 public class HeroAI_Dummy : MonoBehaviour
 {

@@ -5,9 +5,9 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Exits a sequence of nodes one after another, waiting for each node to fully exit before proceeding to the next.

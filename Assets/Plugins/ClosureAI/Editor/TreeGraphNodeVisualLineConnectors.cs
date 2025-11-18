@@ -1,13 +1,13 @@
 #if UNITASK_INSTALLED
 using System;
 using System.Collections.Generic;
-using ClosureAI.Editor.UI;
-using ClosureAI.Utilities;
+using ClosureBT.Editor.UI;
+using ClosureBT.Utilities;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     // TODO: Clean this up
     public class NodeLineConnectionDrawer

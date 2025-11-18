@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a variable that maintains a sliding time window of values from a source variable.

@@ -3,9 +3,9 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         //********************************************************************************************
         // On Enter lifecycle methods

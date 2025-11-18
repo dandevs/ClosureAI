@@ -3,11 +3,11 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static ClosureAI.UI.VisualElementBuilderHelper;
-using static ClosureAI.AI;
+using static ClosureBT.UI.VisualElementBuilderHelper;
+using static ClosureBT.BT;
 using System.Collections.Generic;
 
-namespace ClosureAI.Editor.UI
+namespace ClosureBT.Editor.UI
 {
     public class NodeInspectorView : VisualElement
     {

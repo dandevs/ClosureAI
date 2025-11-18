@@ -3,9 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI
+namespace ClosureBT
 {
     [Serializable]
     public class NodeExecutionStack : IEnumerable<Node>

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Tests
+namespace ClosureBT.Tests
 {
     /// <summary>
     /// Tests for Variable behavior within nodes.

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public static partial class ColorPalette
     {

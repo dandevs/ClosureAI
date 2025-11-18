@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Samples.Shared
+namespace ClosureBT.Samples.Shared
 {
     public partial class Pawn : MonoBehaviour
     {

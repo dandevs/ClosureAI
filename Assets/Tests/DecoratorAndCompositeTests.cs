@@ -1,7 +1,7 @@
 using NUnit.Framework;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Tests
+namespace ClosureBT.Tests
 {
     [TestFixture]
     public class DecoratorAndCompositeTests

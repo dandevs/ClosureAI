@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         public static VariableType<T> UseEveryTick<T>(VariableType<T> source)
         {

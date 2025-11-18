@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Samples.MemoryGame
+namespace ClosureBT.Samples.MemoryGame
 {
     public class AsyncAndInterruptionExample : MonoBehaviour
     {

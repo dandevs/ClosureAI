@@ -1,8 +1,8 @@
 ﻿#if UNITASK_INSTALLED
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Samples.ContextAI
+namespace ClosureBT.Samples.ContextAI
 {
     public class HappyJumpyContextAreaAI : ContextAreaAI
     {

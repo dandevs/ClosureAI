@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 using Object = UnityEngine.Object;
 
-namespace ClosureAI.Editor.UI
+namespace ClosureBT.Editor.UI
 {
     public class NodeVisualizerView : VisualElement, IOnNodeVisualElementClicked
     {

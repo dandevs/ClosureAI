@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClosureAI.Samples
+namespace ClosureBT.Samples
 {
     [DefaultExecutionOrder(-1000)] // Ensure these items are added into the list first before other things start
     public class Item : MonoBehaviour

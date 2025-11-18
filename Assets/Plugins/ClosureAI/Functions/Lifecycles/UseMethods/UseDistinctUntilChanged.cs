@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a variable that only emits when the value from a source variable actually changes.

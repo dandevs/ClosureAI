@@ -1,9 +1,9 @@
 #if UNITASK_INSTALLED
 using System.Collections.Generic;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Samples.Shared
+namespace ClosureBT.Samples.Shared
 {
     /*
      * In this example, we want to create a "sword". The immediate requirements

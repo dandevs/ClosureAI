@@ -1,4 +1,4 @@
-# ClosureAI
+# ClosureBT
 
 A behavior tree system for Unity with async support and visual editor.
 
@@ -13,4 +13,4 @@ var tree = new Node()
 void Update() => tree.Tick(Time.deltaTime);
 ```
 
-See `CLOSUREAI_CONTEXT.md` for full documentation.
+See `CLOSUREBT_CONTEXT.md` for full documentation.

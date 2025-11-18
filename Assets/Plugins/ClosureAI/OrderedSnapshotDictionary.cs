@@ -1,8 +1,8 @@
 #if UNITASK_INSTALLED
 using System.Collections.Generic;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI
+namespace ClosureBT
 {
     /// <summary>
     /// A dictionary-like collection that maintains insertion order and prevents duplicate keys.

@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace ClosureAI.Samples
+namespace ClosureBT.Samples
 {
     public class SoundSense : MonoBehaviour
     {

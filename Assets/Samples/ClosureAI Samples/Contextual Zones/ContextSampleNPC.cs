@@ -1,11 +1,11 @@
 ﻿#if UNITASK_INSTALLED
 using System;
-using ClosureAI.Samples.Shared;
+using ClosureBT.Samples.Shared;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Samples.ContextAI
+namespace ClosureBT.Samples.ContextAI
 {
     [SelectionBase]
     public class ContextSampleNPC : MonoBehaviour

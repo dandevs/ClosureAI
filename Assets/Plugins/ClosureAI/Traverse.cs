@@ -1,9 +1,9 @@
 #if UNITASK_INSTALLED
 using System;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         public delegate void RefAction<T>(ref T binder, Node node);
 

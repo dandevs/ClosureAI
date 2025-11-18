@@ -1,11 +1,11 @@
 #if UNITASK_INSTALLED
 using System;
-using ClosureAI.Utilities;
+using ClosureBT.Utilities;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a composite node that executes child nodes sequentially until one succeeds.

@@ -1,6 +1,6 @@
 using SingularityGroup.HotReload;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
 public class QuickoTest : MonoBehaviour
 {

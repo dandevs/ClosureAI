@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Utilities
+namespace ClosureBT.Utilities
 {
     public static class Utilities
     {

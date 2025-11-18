@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace ClosureAI.Samples.Editor
+namespace ClosureBT.Samples.Editor
 {
     [CustomEditor(typeof(WaypointNode))]
     public class WaypointNodeEditor : UnityEditor.Editor

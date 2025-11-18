@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a variable that tracks whether a VariableType source has signaled a change.

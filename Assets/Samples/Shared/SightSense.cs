@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClosureAI.Samples
+namespace ClosureBT.Samples
 {
     public class SightSense : MonoBehaviour
     {

@@ -1,11 +1,11 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ClosureAI.UI;
-using static ClosureAI.UI.VisualElementBuilderHelper;
+using ClosureBT.UI;
+using static ClosureBT.UI.VisualElementBuilderHelper;
 using UnityEditor.Build; // added for NamedBuildTarget
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     /// <summary>
     /// EditorWindow that prompts the user to install UniTask if it's not detected.
@@ -14,7 +14,7 @@ namespace ClosureAI.Editor
     [InitializeOnLoad]
     public class UniTaskInstallerWindow : EditorWindow
     {
-        private const string PREF_KEY = "ClosureAI";
+        private const string PREF_KEY = "ClosureBT";
         private const string INSTALLER_DISMISSED_KEY = "HasSeenUniTaskInstaller";
         private const string UNITASK_GITHUB_URL = "https://github.com/Cysharp/UniTask/releases/tag/2.5.10";
         internal const string UNITASK_INSTALLED_DEFINE = "UNITASK_INSTALLED";
@@ -61,10 +61,10 @@ namespace ClosureAI.Editor
             return defines.Contains(UNITASK_INSTALLED_DEFINE);
         }
 
-        [MenuItem("Tools/ClosureAI/Show UniTask Installer")]
+        [MenuItem("Tools/ClosureBT/Show UniTask Installer")]
         public static void ShowWindow()
         {
-            var window = GetWindow<UniTaskInstallerWindow>(true, "ClosureAI Setup", true);
+            var window = GetWindow<UniTaskInstallerWindow>(true, "ClosureBT Setup", true);
             window.minSize = new Vector2(450, 320);
             window.maxSize = new Vector2(450, 320);
             window.Show();
@@ -122,7 +122,7 @@ namespace ClosureAI.Editor
                     // Description
                     E<Label>(desc =>
                     {
-                        desc.text = "ClosureAI requires UniTask to function properly. This package provides essential async/await functionality for behavior trees.";
+                        desc.text = "ClosureBT requires UniTask to function properly. This package provides essential async/await functionality for behavior trees.";
                         Style(new()
                         {
                             fontSize = 12,

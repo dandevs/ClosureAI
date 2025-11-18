@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ClosureAI.UI;
-using static ClosureAI.AI;
+using ClosureBT.UI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Editor.UI
+namespace ClosureBT.Editor.UI
 {
     public static class NodeUI
     {

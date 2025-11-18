@@ -1,7 +1,7 @@
 #if UNITASK_INSTALLED
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI
+namespace ClosureBT
 {
     public readonly struct ChangeReactivityStruct
     {
@@ -49,7 +49,7 @@ namespace ClosureAI
         }
     }
 
-    public static partial class AI
+    public static partial class BT
     {
         public static ChangeReactivityStruct Reactive => new(true);
         public static ChangeReactivityStruct NonReactive => new(false);

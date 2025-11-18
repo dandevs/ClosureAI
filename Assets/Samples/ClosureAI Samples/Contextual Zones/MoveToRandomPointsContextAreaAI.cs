@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Samples.ContextAI
+namespace ClosureBT.Samples.ContextAI
 {
     public class MoveToRandomPointsContextAreaAI : ContextAreaAI
     {

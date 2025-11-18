@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a leaf node that evaluates a boolean condition and returns Success or Failure based on the result.

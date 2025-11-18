@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
-namespace ClosureAI.UI
+namespace ClosureBT.UI
 {
     public static class VisualElementBuilderHelper
     {

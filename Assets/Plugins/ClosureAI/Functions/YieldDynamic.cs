@@ -3,9 +3,9 @@ using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public partial class AI
+    public partial class BT
     {
         /// <summary>
         /// Creates a yield node that dynamically inserts and switches between child nodes at runtime.

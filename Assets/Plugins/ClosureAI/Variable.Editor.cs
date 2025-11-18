@@ -2,12 +2,12 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
-using ClosureAI.Editor;
+using ClosureBT.Editor;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public partial class AI
+    public partial class BT
     {
         public partial class VariableType
         {
@@ -41,13 +41,13 @@ namespace ClosureAI
                     {
                         for (var i = 0; i < Lines.Length; i++)
                         {
-                            if (Lines[i].StartsWith("ClosureAI.AI:Variable<") || Lines[i].Contains(":Use"))
+                            if (Lines[i].StartsWith("ClosureBT.BT:Variable<") || Lines[i].Contains(":Use"))
                             {
                                 if (i + 1 < Lines.Length)
                                     entries.Add(NodeEditorUtility.ExtractFileInfo(Lines[i + 1]));
                             }
 
-                            if (Lines[i].Contains("ClosureAI.AI.UsePipe"))
+                            if (Lines[i].Contains("ClosureBT.BT.UsePipe"))
                                 InsideUsePipe = true;
                         }
                     }

@@ -1,5 +1,5 @@
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
 namespace GraphDemoHero
 {

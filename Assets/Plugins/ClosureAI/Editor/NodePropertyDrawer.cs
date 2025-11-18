@@ -2,9 +2,9 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
-    [CustomPropertyDrawer(typeof(AI.Node))]
+    [CustomPropertyDrawer(typeof(BT.Node))]
     public class NodePropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

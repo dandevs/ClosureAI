@@ -4,13 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using ClosureAI.Utilities;
+using ClosureBT.Utilities;
 using UnityEditor;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         public static Node CurrentNode => _nodeStack.TryPeek(out var node) ? node : null;
 

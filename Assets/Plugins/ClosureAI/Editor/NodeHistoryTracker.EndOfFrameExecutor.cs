@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public static partial class NodeHistoryTracker
     {

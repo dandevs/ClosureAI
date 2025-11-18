@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     [InitializeOnLoad]
     public static partial class NodeHistoryTracker
@@ -38,7 +38,7 @@ namespace ClosureAI.Editor
 //         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 //         private static void Create()
 //         {
-//             EOF = new GameObject("ClosureAI / Editor " + nameof(EndOfFrameExecutor)).AddComponent<EndOfFrameExecutor>();
+//             EOF = new GameObject("ClosureBT / Editor " + nameof(EndOfFrameExecutor)).AddComponent<EndOfFrameExecutor>();
 //             GameObject.DontDestroyOnLoad(EOF);
 //         }
 // #endif

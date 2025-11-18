@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace ClosureAI.Samples
+namespace ClosureBT.Samples
 {
     public class InventoryDisplay : MonoBehaviour
     {

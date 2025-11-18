@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ClosureAI.Samples.Shared
+namespace ClosureBT.Samples.Shared
 {
     public class Placement : MonoBehaviour
     {

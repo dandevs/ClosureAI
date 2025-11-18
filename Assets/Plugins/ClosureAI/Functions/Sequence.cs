@@ -1,12 +1,12 @@
 #if UNITASK_INSTALLED
 using System;
 using System.Linq;
-using ClosureAI.Utilities;
+using ClosureBT.Utilities;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a composite node that executes child nodes sequentially until one fails or all succeed.
@@ -32,7 +32,7 @@ namespace ClosureAI
         /// <item>Checks all previously completed children for invalidation each tick</item>
         /// <item>If a previous child invalidates, resets all subsequent children gracefully</item>
         /// <item>Restarts execution from the invalidated child (with allowReEnter=true)</item>
-        /// <item>This allows dynamic re-evaluation when conditions change (see CLOSUREAI_CONTEXT.md for details)</item>
+        /// <item>This allows dynamic re-evaluation when conditions change (see CLOSUREBT_CONTEXT.md for details)</item>
         /// </list>
         ///
         /// <para><b>Common Use Cases:</b></para>

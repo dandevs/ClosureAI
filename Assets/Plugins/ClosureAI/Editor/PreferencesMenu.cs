@@ -5,13 +5,13 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static ClosureAI.UI.VisualElementBuilderHelper;
+using static ClosureBT.UI.VisualElementBuilderHelper;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public class Preferences : SettingsProvider
     {
-        private const string PREF_KEY = "ClosureAI";
+        private const string PREF_KEY = "ClosureBT";
         private const int DEFAULT_MAX_RECORDED_SNAPSHOTS = 500;
 
         public static event Action OnAnyPreferenceChanged = delegate {};
@@ -72,7 +72,7 @@ namespace ClosureAI.Editor
         {
             E<Label>(label =>
             {
-                label.text = "ClosureAI Settings";
+                label.text = "ClosureBT Settings";
                 label.style.fontSize = 18;
                 label.style.unityFontStyleAndWeight = FontStyle.Bold;
                 label.style.marginBottom = 10;
@@ -117,7 +117,7 @@ namespace ClosureAI.Editor
         [SettingsProvider]
         public static SettingsProvider CreateSettingsProvider()
         {
-            return new Preferences("Preferences/ClosureAI", SettingsScope.User);
+            return new Preferences("Preferences/ClosureBT", SettingsScope.User);
         }
 
         public static string Key(string str) => PREF_KEY + "_" + str;

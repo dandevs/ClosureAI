@@ -1,9 +1,9 @@
 #if UNITASK_INSTALLED
 using System;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public partial class AI
+    public partial class BT
     {
         // We add a YieldNode type so we can query its type for editor functionality
         [Serializable]

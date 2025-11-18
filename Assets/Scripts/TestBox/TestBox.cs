@@ -1,5 +1,5 @@
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 using SingularityGroup.HotReload;
 using Cysharp.Threading.Tasks;
 using System;

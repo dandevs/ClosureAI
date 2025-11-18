@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
 #if UNITY_EDITOR
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public class NodeSnapshotHolder
     {

@@ -1,9 +1,9 @@
 #if UNITASK_INSTALLED
 using System;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a leaf node that waits until a condition becomes true, then succeeds.

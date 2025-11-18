@@ -1,10 +1,10 @@
 #if UNITASK_INSTALLED
 using System;
-using ClosureAI.Utilities;
+using ClosureBT.Utilities;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a composite node that executes all child nodes simultaneously in parallel.

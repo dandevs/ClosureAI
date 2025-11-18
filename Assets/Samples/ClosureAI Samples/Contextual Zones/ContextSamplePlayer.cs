@@ -1,9 +1,9 @@
 ﻿#if UNITASK_INSTALLED
-using ClosureAI.Samples.Shared;
+using ClosureBT.Samples.Shared;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace ClosureAI.Samples.ContextAI
+namespace ClosureBT.Samples.ContextAI
 {
     [SelectionBase]
     public class ContextSamplePlayer : MonoBehaviour

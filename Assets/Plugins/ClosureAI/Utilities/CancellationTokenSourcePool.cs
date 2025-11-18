@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 
-namespace ClosureAI.Utilities
+namespace ClosureBT.Utilities
 {
     public static class CancellationTokenSourcePool
     {

@@ -1,9 +1,9 @@
 #if UNITASK_INSTALLED
 using System.Runtime.CompilerServices;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Marks the current node to always invalidate in a reactive behavior tree.

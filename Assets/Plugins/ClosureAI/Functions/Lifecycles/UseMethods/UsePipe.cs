@@ -2,9 +2,9 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static VariableType<T1> UsePipe<T0, T1>(VariableType<T0> var0, Func<VariableType<T0>, VariableType<T1>> var1)

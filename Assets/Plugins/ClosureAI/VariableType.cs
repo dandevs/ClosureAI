@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public partial class AI
+    public partial class BT
     {
         [Serializable]
         public abstract partial class VariableType
@@ -131,7 +131,7 @@ namespace ClosureAI
 
                 // for (var i = 0; i < lines.Length; i++)
                 // {
-                //     if (lines[i].StartsWith("ClosureAI.AI:Variable<") || lines[i].StartsWith("ClosureAI.AI:Use"))
+                //     if (lines[i].StartsWith("ClosureBT.BT:Variable<") || lines[i].StartsWith("ClosureBT.BT:Use"))
                 //     {
                 //         (filePath, _) = NodeEditorUtility.ExtractFileInfo(lines[i + 1]);
                 //         break;

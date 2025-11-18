@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a variable that debounces signals from a VariableType source, only propagating after the source stops changing for the specified delay period.

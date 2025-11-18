@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         public static partial class D
         {

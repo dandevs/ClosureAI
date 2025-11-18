@@ -3,9 +3,9 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         public static LeafNode AsNode(Func<CancellationToken, UniTask> func, Action setup = null) => Leaf(
             func.Method.Name, () =>

@@ -1,9 +1,9 @@
 #if UNITASK_INSTALLED
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         public static partial class D
         {

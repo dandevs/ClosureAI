@@ -1,13 +1,13 @@
 #if UNITASK_INSTALLED
 using System;
 using UnityEngine.UIElements;
-using ClosureAI.Editor.UI;
-using ClosureAI.UI;
+using ClosureBT.Editor.UI;
+using ClosureBT.UI;
 using UnityEngine;
-using static ClosureAI.AI;
-using static ClosureAI.UI.VisualElementBuilderHelper;
+using static ClosureBT.BT;
+using static ClosureBT.UI.VisualElementBuilderHelper;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public class SnapshotIndexControllerElement : VisualElement
     {

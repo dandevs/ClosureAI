@@ -2,10 +2,10 @@
 using UnityEditor;
 using UnityEditor.Build;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     /// <summary>
-    /// Detects when the ClosureAI package is first imported and shows the UniTask installer window.
+    /// Detects when the ClosureBT package is first imported and shows the UniTask installer window.
     /// This ensures the installer appears even when the package is imported as a .unitypackage.
     /// </summary>
     public class UniTaskInstallerPostprocessor : AssetPostprocessor
@@ -17,10 +17,10 @@ namespace ClosureAI.Editor
             string[] movedFromAssetPaths)
         {
             // Check if UniTaskInstallerWindow.cs was just imported
-            // This indicates the ClosureAI package is being imported
+            // This indicates the ClosureBT package is being imported
             foreach (string asset in importedAssets)
             {
-                if (asset.EndsWith("UniTaskInstallerWindow.cs") && asset.Contains("ClosureAI"))
+                if (asset.EndsWith("UniTaskInstallerWindow.cs") && asset.Contains("ClosureBT"))
                 {
                     // Package is being imported - schedule installer check
                     // Use delayCall to ensure Unity is fully ready after import
@@ -42,7 +42,7 @@ namespace ClosureAI.Editor
             // Check if user has previously dismissed the installer
             // This handles re-imports of the package in projects that already dismissed it
             string projectGuid = PlayerSettings.productGUID.ToString();
-            string key = $"ClosureAI_{projectGuid}_HasSeenUniTaskInstaller";
+            string key = $"ClosureBT_{projectGuid}_HasSeenUniTaskInstaller";
             bool hasSeenInstaller = EditorPrefs.GetBool(key, false);
 
             if (!hasSeenInstaller)

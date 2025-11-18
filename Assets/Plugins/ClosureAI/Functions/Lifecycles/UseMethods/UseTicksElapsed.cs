@@ -1,7 +1,7 @@
 #if UNITASK_INSTALLED
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a variable that tracks elapsed ticks since the node started.

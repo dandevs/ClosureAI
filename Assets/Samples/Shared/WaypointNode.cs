@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClosureAI.Samples
+namespace ClosureBT.Samples
 {
     [DefaultExecutionOrder(-10)]
     public class WaypointNode : MonoBehaviour

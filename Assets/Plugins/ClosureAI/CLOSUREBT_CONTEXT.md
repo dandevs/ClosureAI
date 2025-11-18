@@ -1,4 +1,4 @@
-# ClosureAI Behavior Tree - Context for LLMs
+# ClosureBT Behavior Tree - Context for LLMs
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@
 
 ## Overview
 
-ClosureAI is a behavior tree library for Unity using declarative C# API to define AI behaviors.
+ClosureBT is a behavior tree library for Unity using declarative C# API to define AI behaviors.
 
 ### Key Distinguishing Features
 
@@ -26,7 +26,7 @@ ClosureAI is a behavior tree library for Unity using declarative C# API to defin
 ### The Fundamental Pattern
 
 ```csharp
-using static ClosureAI.AI;  // REQUIRED
+using static ClosureBT.BT;  // REQUIRED
 using UnityEngine;
 
 public class MyAI : MonoBehaviour
@@ -145,7 +145,7 @@ Tree = Reactive * SequenceAlways("Root", () =>
 ### Quick Reference Template
 
 ```csharp
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 using UnityEngine;
 
 public class MyAI : MonoBehaviour
@@ -441,4 +441,4 @@ Expose Node as **public field** to access:
 
 ---
 
-This document reflects the ClosureAI implementation. For up-to-date behavior, refer to source code.
+This document reflects the ClosureBT implementation. For up-to-date behavior, refer to source code.

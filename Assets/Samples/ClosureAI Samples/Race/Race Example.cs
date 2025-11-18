@@ -1,8 +1,8 @@
 #if UNITASK_INSTALLED
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Samples.RaceExample
+namespace ClosureBT.Samples.RaceExample
 {
     public class RaceExample : MonoBehaviour
     {

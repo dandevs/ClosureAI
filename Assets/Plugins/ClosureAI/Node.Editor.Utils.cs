@@ -4,7 +4,7 @@ using System;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public static class NodeEditorUtility
     {

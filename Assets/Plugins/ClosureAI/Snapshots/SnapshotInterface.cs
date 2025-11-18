@@ -1,7 +1,7 @@
 #if UNITASK_INSTALLED
 using System.Collections.Generic;
-using static ClosureAI.AI;
-namespace ClosureAI
+using static ClosureBT.BT;
+namespace ClosureBT
 {
     public struct SnapshotInfo
     {

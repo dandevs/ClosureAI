@@ -1,16 +1,16 @@
 #if UNITASK_INSTALLED
 using System;
 using System.Collections.Generic;
-using ClosureAI.Editor.UI;
+using ClosureBT.Editor.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ClosureAI.UI;
-using static ClosureAI.UI.VisualElementBuilderHelper;
-using static ClosureAI.AI;
+using ClosureBT.UI;
+using static ClosureBT.UI.VisualElementBuilderHelper;
+using static ClosureBT.BT;
 using Object = UnityEngine.Object;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public class TreeEditorWindow : EditorWindow, IVisualElementController
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
 public class AnotherTestScrubber : MonoBehaviour
 {

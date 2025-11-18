@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         /// <summary>
         /// Creates a variable that tracks elapsed time since a predicate first became true.

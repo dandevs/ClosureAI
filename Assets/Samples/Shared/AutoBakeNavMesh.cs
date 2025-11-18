@@ -2,7 +2,7 @@
 using Unity.AI.Navigation;
 using UnityEngine;
 
-namespace ClosureAI.Samples
+namespace ClosureBT.Samples
 {
     [DefaultExecutionOrder(-99999)]
     public class AutoBakeNavMesh : MonoBehaviour

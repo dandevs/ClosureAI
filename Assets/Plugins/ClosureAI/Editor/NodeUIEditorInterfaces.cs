@@ -1,8 +1,8 @@
 #if UNITASK_INSTALLED
 using UnityEngine.UIElements;
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Editor.UI
+namespace ClosureBT.Editor.UI
 {
     public interface IOnNodeVisualElementClicked
     {

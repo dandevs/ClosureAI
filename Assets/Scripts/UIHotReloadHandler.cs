@@ -1,10 +1,10 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
-using ClosureAI.Editor;
+using ClosureBT.Editor;
 using SingularityGroup.HotReload;
 using UnityEngine;
 
-namespace ClosureAI.HotReload
+namespace ClosureBT.HotReload
 {
     internal static class UIHotReloadHandler
     {

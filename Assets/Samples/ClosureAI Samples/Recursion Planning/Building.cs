@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClosureAI.Samples.Shared
+namespace ClosureBT.Samples.Shared
 {
     public class Building : MonoBehaviour
     {

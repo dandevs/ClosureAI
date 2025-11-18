@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ClosureAI.Editor.UI
+namespace ClosureBT.Editor.UI
 {
     /// <summary>
     /// A resize bar can be dragged to change the panel's width or height.

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ClosureAI.Editor.UI
+namespace ClosureBT.Editor.UI
 {
     public static class DrawGridPattern
     {

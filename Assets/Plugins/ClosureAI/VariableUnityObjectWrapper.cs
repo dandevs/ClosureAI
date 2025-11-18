@@ -1,14 +1,14 @@
 #if UNITASK_INSTALLED
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
     public class VariableUnityObjectWrapper : ScriptableObject
     {
         [SerializeReference]
-        public AI.VariableType Variable;
+        public BT.VariableType Variable;
 
-        public static VariableUnityObjectWrapper Get(AI.VariableType variable)
+        public static VariableUnityObjectWrapper Get(BT.VariableType variable)
         {
             var wrapper = CreateInstance<VariableUnityObjectWrapper>();
             wrapper.Variable = variable;

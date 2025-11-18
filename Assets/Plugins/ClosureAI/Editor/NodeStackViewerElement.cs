@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using ClosureAI.Editor.UI;
-using ClosureAI.UI;
+using ClosureBT.Editor.UI;
+using ClosureBT.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static ClosureAI.UI.VisualElementBuilderHelper;
-using static ClosureAI.AI;
+using static ClosureBT.UI.VisualElementBuilderHelper;
+using static ClosureBT.BT;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public class NodeStackViewerElement : ScrollView, IVisualElementController
     {

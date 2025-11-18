@@ -1,9 +1,9 @@
 #if UNITASK_INSTALLED
 using System;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public partial class AI
+    public partial class BT
     {
         /// <summary>
         /// Delegate for yield setup functions that configure a YieldController and return a node selection function.

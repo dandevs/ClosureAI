@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public interface IHistoryTracked
     {

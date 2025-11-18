@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ClosureAI.UI
+namespace ClosureBT.UI
 {
     public struct StyleApplyHelper
     {

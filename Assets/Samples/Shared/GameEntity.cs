@@ -3,7 +3,7 @@ using System;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 
-namespace ClosureAI.Samples
+namespace ClosureBT.Samples
 {
     [SelectionBase]
     public class GameEntity : MonoBehaviour

@@ -1,9 +1,9 @@
 #if UNITASK_INSTALLED
 using UnityEngine;
 using UnityEngine.UIElements;
-using static ClosureAI.UI.VisualElementBuilderHelper;
+using static ClosureBT.UI.VisualElementBuilderHelper;
 
-namespace ClosureAI.Editor.UI
+namespace ClosureBT.Editor.UI
 {
     public class StatusBadge : VisualElement
     {

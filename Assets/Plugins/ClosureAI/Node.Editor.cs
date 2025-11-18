@@ -3,13 +3,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ClosureAI.Editor;
+using ClosureBT.Editor;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         // This contains debugging info, such as determining which line and file the node was created
         public partial class Node
@@ -171,11 +171,11 @@ namespace ClosureAI
                 /// </item>
                 /// <item>
                 ///     <description>First, attempts to find any anonymous/lambda method (contained in angle brackets)
-                ///     that isn't part of the ClosureAI or Unity framework</description>
+                ///     that isn't part of the ClosureBT or Unity framework</description>
                 /// </item>
                 /// <item>
                 ///     <description>If no lambda is found, falls back to the first user code line in the stack
-                ///     (anything not from ClosureAI or UnityEngine namespaces)</description>
+                ///     (anything not from ClosureBT or UnityEngine namespaces)</description>
                 /// </item>
                 /// <item>
                 ///     <description>Extracts the file path and line number from the identified stack line using Utils.ExtractFileInfo</description>
@@ -192,8 +192,8 @@ namespace ClosureAI
                     var lines = trace.Split(_lineSplitStrings, StringSplitOptions.RemoveEmptyEntries)
                         .Where(static line =>
                         {
-                            // return !line.StartsWith("ClosureAI.AI") && !line.StartsWith("UnityEngine.");
-                            if (line.StartsWith("ClosureAI.AI"))
+                            // return !line.StartsWith("ClosureBT.BT") && !line.StartsWith("UnityEngine.");
+                            if (line.StartsWith("ClosureBT.BT"))
                                 return false;
 
                             if (line.StartsWith("UnityEngine."))

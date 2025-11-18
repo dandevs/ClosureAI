@@ -1,6 +1,6 @@
-# ClosureAI Design Philosophy & Style Guide
+# ClosureBT Design Philosophy & Style Guide
 
-This document outlines the design patterns, UI conventions, and coding standards for the ClosureAI behavior tree system.
+This document outlines the design patterns, UI conventions, and coding standards for the ClosureBT behavior tree system.
 
 ## Table of Contents
 - [UI Architecture](#ui-architecture)
@@ -16,7 +16,7 @@ This document outlines the design patterns, UI conventions, and coding standards
 
 ## UI Architecture
 
-ClosureAI uses Unity's UI Toolkit (UIElements) for all editor windows and inspectors. The custom UI library provides a declarative, hierarchical approach to building interfaces.
+ClosureBT uses Unity's UI Toolkit (UIElements) for all editor windows and inspectors. The custom UI library provides a declarative, hierarchical approach to building interfaces.
 
 ### Core Files
 - **`UI/VisualElementBuilderHelper.cs`** - Core E() helper and layout components
@@ -33,7 +33,7 @@ The `E()` helper method is the foundation of our UI system. It creates elements 
 ### Basic Usage
 
 ```csharp
-using static ClosureAI.UI.VisualElementBuilderHelper;
+using static ClosureBT.UI.VisualElementBuilderHelper;
 
 // Pattern 1: Create with setup action that receives the element
 E<VisualElement>(element =>
@@ -498,7 +498,7 @@ E<StatusBadge>(badge =>
 ### Always Use Static Import
 
 ```csharp
-using static ClosureAI.UI.VisualElementBuilderHelper;
+using static ClosureBT.UI.VisualElementBuilderHelper;
 ```
 
 This enables clean E() and Style() calls without prefixes.
@@ -640,14 +640,14 @@ Place in `Editor/` folder:
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ClosureAI.UI;
-using static ClosureAI.UI.VisualElementBuilderHelper;
+using ClosureBT.UI;
+using static ClosureBT.UI.VisualElementBuilderHelper;
 
-namespace ClosureAI.Editor
+namespace ClosureBT.Editor
 {
     public class TemplateWindow : EditorWindow
     {
-        [MenuItem("Tools/ClosureAI/Template")]
+        [MenuItem("Tools/ClosureBT/Template")]
         public static void ShowWindow()
         {
             var window = GetWindow<TemplateWindow>();
@@ -747,7 +747,7 @@ namespace ClosureAI.Editor
 Use a consistent prefix for all EditorPrefs:
 
 ```csharp
-private const string PREF_KEY = "ClosureAI";
+private const string PREF_KEY = "ClosureBT";
 private static string Key(string str) => PREF_KEY + "_" + str;
 
 // Usage

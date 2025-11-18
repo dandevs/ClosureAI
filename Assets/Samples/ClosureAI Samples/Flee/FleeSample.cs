@@ -1,8 +1,8 @@
 #if UNITASK_INSTALLED
-using static ClosureAI.AI;
+using static ClosureBT.BT;
 using UnityEngine;
 
-namespace ClosureAI.Samples.Flee
+namespace ClosureBT.Samples.Flee
 {
     public class FleeSample : MonoBehaviour
     {

@@ -1,9 +1,9 @@
 #if UNITASK_INSTALLED
 using System;
 
-namespace ClosureAI
+namespace ClosureBT
 {
-    public static partial class AI
+    public static partial class BT
     {
         public static partial class D
         {
@@ -107,6 +107,10 @@ namespace ClosureAI
                 OnBaseTick(() =>
                 {
                     var ok = condition();
+
+                    if (ok != _previous.Value && !node.Child.ResetImmediately())
+                        return Status.Running;
+
                     _previous.Value = ok;
 
                     if (ok)

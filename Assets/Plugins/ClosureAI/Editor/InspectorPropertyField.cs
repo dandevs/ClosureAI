@@ -3,15 +3,15 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using ClosureAI.UI;
-using static ClosureAI.UI.VisualElementBuilderHelper;
+using ClosureBT.UI;
+using static ClosureBT.UI.VisualElementBuilderHelper;
 
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 #endif
 
-namespace ClosureAI.Editor.UI
+namespace ClosureBT.Editor.UI
 {
     public class InspectorPropertyField : VisualElement
     {
@@ -24,7 +24,7 @@ namespace ClosureAI.Editor.UI
 #endif
         private VariableUnityObjectWrapper wrapper;
 
-        public InspectorPropertyField(AI.VariableType variable)
+        public InspectorPropertyField(BT.VariableType variable)
         {
             wrapper = VariableUnityObjectWrapper.Get(variable);
 
@@ -81,7 +81,7 @@ namespace ClosureAI.Editor.UI
             RegisterCallback<DetachFromPanelEvent>(_ => Cleanup());
         }
 
-        private void AddUnsupportedDrawerUI(AI.VariableType variable)
+        private void AddUnsupportedDrawerUI(BT.VariableType variable)
         {
             E(this, _ =>
             {
