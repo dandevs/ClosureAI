@@ -31,28 +31,35 @@ namespace ClosureBT
                 var node = (DecoratorNode)CurrentNode;
                 var _latched = Variable(static () => false); // Once true, stays true until child completes
                 var _previous = Variable(false);
+                var _inResetState = Variable(true);
                 var _condition = false;
 
                 SetNodeName(name);
                 OnExit(_ =>
                 {
                     _latched.SetValueSilently(false);
+                    _inResetState.SetValueSilently(true);
                     return ExitNode(node.Child);
                 });
 
                 OnInvalidCheck(() =>
                 {
                     if (!_latched.Value)
-                    {
-                        var ok = condition();
-                        _latched.SetValueSilently(ok && node.Child.IsInvalid());
-                    }
+                        _latched.SetValueSilently(condition());
 
                     return _latched.Value;
                 });
 
                 OnBaseTick(() =>
                 {
+                    if (_inResetState.Value)
+                    {
+                        if (!node.Child.ResetImmediately())
+                            return Status.Running;
+                        else
+                            _inResetState.SetValueSilently(false);
+                    }
+
                     // Latch the condition once it becomes true
                     if (!_latched.Value && (_condition = condition()))
                         _latched.Value = true;
