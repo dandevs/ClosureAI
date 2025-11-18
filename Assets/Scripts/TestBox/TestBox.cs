@@ -30,6 +30,17 @@ public class TestBox : MonoBehaviour
         });
     }
 
+    Node FooTest() => Sequence(() =>
+    {
+        Wait(1);
+        Wait(1);
+        Wait(1);
+    });
+
+    Node MyCustomLeaf() => Leaf("Yeah!", () =>
+    {
+    });
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [InvokeOnHotReloadLocal]
     void Start()
@@ -83,6 +94,9 @@ public class TestBox : MonoBehaviour
         Tree = Reactive * SequenceAlways(() =>
         {
             var xs = 0;
+
+            FooTest();
+            MyCustomLeaf();
 
             // WaitUntil(() => A);
             D.Condition(() => A);

@@ -1495,18 +1495,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2ffe33a68f4433897f693df0b605e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AI:
-    _status: 0
-    _subStatus: 0
-    _flags: 0
-    Variables: []
   CameraController: {fileID: 0}
   Target: {fileID: 0}
   Pawn: {fileID: 921045482}
   NPC: {fileID: 996664610}
-  references:
-    version: 2
-    RefIds: []
 --- !u!143 &921045488
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3007,10 +2999,10 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1757281470}
+  - {fileID: 338053791}
   - {fileID: 999574042}
   - {fileID: 1160234427}
+  - {fileID: 1780038403}
   - {fileID: 604712594}
   - {fileID: 505702790}
-  - {fileID: 1757281470}
-  - {fileID: 1780038403}
-  - {fileID: 338053791}

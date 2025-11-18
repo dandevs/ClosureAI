@@ -286,12 +286,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AI:
-    Name: 
     _status: 0
     _subStatus: 0
     _flags: 0
     Variables: []
-  Models: []
   references:
     version: 2
     RefIds: []
