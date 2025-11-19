@@ -190,7 +190,7 @@ namespace ClosureBT
                 }
             }
 
-            public bool BlockReEnter { get; private set; }
+            public bool BlockReEnter { get; internal set; }
 
             public readonly List<Action> OnTicks = new();
             public readonly List<Action> OnPreTicks = new();
