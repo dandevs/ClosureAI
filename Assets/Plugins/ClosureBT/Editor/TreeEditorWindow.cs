@@ -396,8 +396,8 @@ namespace ClosureBT.Editor
                 backgroundColor = ColorPalette.WindowBackground,
                 paddingLeft = 12,
                 paddingRight = 12,
-                paddingTop = 6,
-                paddingBottom = 6,
+                paddingTop = 3,
+                paddingBottom = 3,
                 borderTopWidth = 1,
                 borderTopColor = ColorPalette.SubtleBorder,
                 flexDirection = FlexDirection.Row,
@@ -437,6 +437,43 @@ namespace ClosureBT.Editor
                     fontSize = 9,
                     color = ColorPalette.DimGrayText,
                     unityFontStyleAndWeight = FontStyle.Normal,
+                });
+            });
+
+            // Spacer to push gear icon to the right
+            E<VisualElement>(spacer =>
+            {
+                Style(new()
+                {
+                    flexGrow = 1,
+                });
+            });
+
+            // Gear icon button
+            E(new Button(() => SettingsService.OpenUserPreferences("Preferences/ClosureBT")), gearButton =>
+            {
+                gearButton.text = "⋮";
+                Style(new()
+                {
+                    fontSize = 20,
+                    color = ColorPalette.DimGrayText,
+                    paddingLeft = 0,
+                    paddingRight = 0,
+                    paddingTop = 0,
+                    paddingBottom = 0,
+                    minWidth = 20,
+                    minHeight = 20,
+                    borderWidth = 1,
+                    backgroundColor = Color.clear,
+                    unityFontStyleAndWeight = FontStyle.Bold,
+                });
+                gearButton.RegisterCallback<MouseEnterEvent>(evt =>
+                {
+                    gearButton.style.color = ColorPalette.OrangeAccent;
+                });
+                gearButton.RegisterCallback<MouseLeaveEvent>(evt =>
+                {
+                    gearButton.style.color = ColorPalette.DimGrayText;
                 });
             });
         });
