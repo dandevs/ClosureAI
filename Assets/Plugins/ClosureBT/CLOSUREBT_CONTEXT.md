@@ -348,7 +348,7 @@ OnInvalidCheck(() =>
 
 ### Yield - Dynamic Node Insertion
 
-**YieldSimpleCached** - Cache single node, reuse across ticks:
+**YieldSimpleCached** - Caches single node, reuse across ticks:
 
 ```csharp
 YieldSimpleCached(() => AcquireItem(requiredItemID));
@@ -389,11 +389,18 @@ YieldDynamic("State Machine", controller =>
         .WithResetYieldedNodeOnNodeChange()
         .WithResetYieldedNodeOnSelfExit();
 
+    Node combatNode = null;
+    Node idleNode = null;
+    Node patrolNode = null;
+
     return _ =>  // Called EVERY tick
     {
-        if (IsInCombat()) return combatNode;
-        else if (IsIdle()) return idleNode;
-        else return patrolNode;
+        if (IsInCombat())
+            return combatNode ??= Combat();
+        else if (IsIdle())
+            return idleNode ??= Idle();
+        else
+            return patrolNode ??= Patrol();
     };
 });
 ```
@@ -430,7 +437,6 @@ Expose Node as **public field** to access:
 ### Debugging Checklist
 
 1. Check **SubStatus** to see exact phase
-2. Look for **Resetting flags** during cleanup
 3. Verify **CancellationTokens** are passed correctly
 4. Confirm **OnExit** properly cleans up children
 5. Check **OnInvalidCheck** for unexpected invalidations
