@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using ClosureBT.Utilities;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace ClosureBT
 {
@@ -17,6 +20,23 @@ namespace ClosureBT
         private static readonly Stack<Node> _nodeStack = new();
         private static readonly Stack<DecoratorNode> _decorators = new();
         private static readonly List<Node> _nodesCache = new();
+
+        private static readonly Action<Node> _nodeDisableReset = static node =>
+        {
+            node.Resetting = false;
+            node.Active = false;
+            node.SubStatus = SubStatus.None;
+            node.Status = Status.None;
+        };
+
+        private static readonly Action<Node> _nodeDisableResetWithBlockReEnter = static node =>
+        {
+            node.Resetting = false;
+            node.Active = false;
+            node.BlockReEnter = false;
+            node.SubStatus = SubStatus.None;
+            node.Status = Status.None;
+        };
 
         [Serializable]
         public partial class Node
@@ -163,7 +183,7 @@ namespace ClosureBT
             public bool Active
             {
                 get => (_flags & NodeFlags.Active) != 0;
-                private set
+                internal set
                 {
                     if (value) _flags |= NodeFlags.Active;
                     else _flags &= ~NodeFlags.Active;
@@ -277,13 +297,7 @@ namespace ClosureBT
                         if (node.Resetting)
                         {
                             node.SubStatus = SubStatus.Disabling;
-                            node.ExecuteOnDisableMethods(static node =>
-                            {
-                                node.Active = false;
-                                node.Resetting = false;
-                                node.SubStatus = SubStatus.None;
-                                node.Status = Status.None;
-                            });
+                            node.ExecuteOnDisableMethods(_nodeDisableReset);
                         }
                         else
                         {
@@ -297,13 +311,7 @@ namespace ClosureBT
 
                                     node.ExecuteOnExitMethods(static node =>
                                     {
-                                        node.ExecuteOnDisableMethods(static node =>
-                                        {
-                                            node.SubStatus = SubStatus.None;
-                                            node.Status = Status.None;
-                                            node.Resetting = false;
-                                            node.Active = false;
-                                        });
+                                        node.ExecuteOnDisableMethods(_nodeDisableReset);
                                     });
                                 }
                                 else
@@ -331,13 +339,7 @@ namespace ClosureBT
 
                             node.ExecuteOnExitMethods(static node =>
                             {
-                                node.ExecuteOnDisableMethods(static node =>
-                                {
-                                    node.SubStatus = SubStatus.None;
-                                    node.Status = Status.None;
-                                    node.Resetting = false;
-                                    node.Active = false;
-                                });
+                                node.ExecuteOnDisableMethods(_nodeDisableReset);
                             });
                         }
                         else
@@ -385,13 +387,7 @@ namespace ClosureBT
                             {
                                 if (node.Resetting)
                                 {
-                                    node.ExecuteOnDisableMethods(static node =>
-                                    {
-                                        node.SubStatus = SubStatus.None;
-                                        node.Status = Status.None;
-                                        node.Resetting = false;
-                                        node.Active = false;
-                                    });
+                                    node.ExecuteOnDisableMethods(_nodeDisableReset);
                                 }
                                 else
                                 {
@@ -418,13 +414,7 @@ namespace ClosureBT
                             {
                                 if (node.Resetting)
                                 {
-                                    node.ExecuteOnDisableMethods(static node =>
-                                    {
-                                        node.SubStatus = SubStatus.None;
-                                        node.Status = Status.None;
-                                        node.Resetting = false;
-                                        node.Active = false;
-                                    });
+                                    node.ExecuteOnDisableMethods(_nodeDisableReset);
                                 }
                                 else
                                 {
@@ -502,13 +492,7 @@ namespace ClosureBT
                         if (node.Done)
                         {
                             node.SubStatus = SubStatus.Disabling;
-                            node.ExecuteOnDisableMethods(static node =>
-                            {
-                                node.SubStatus = SubStatus.None;
-                                node.Status = Status.None;
-                                node.Active = false;
-                                node.Resetting = false;
-                            });
+                            node.ExecuteOnDisableMethods(_nodeDisableReset);
                         }
                         else
                         {
@@ -523,14 +507,7 @@ namespace ClosureBT
                 {
                     SubStatus = SubStatus.Disabling;
 
-                    ExecuteOnDisableMethods(static node =>
-                    {
-                        node.Resetting = false;
-                        node.Active = false;
-                        node.BlockReEnter = false;
-                        node.SubStatus = SubStatus.None;
-                        node.Status = Status.None;
-                    });
+                    ExecuteOnDisableMethods(_nodeDisableResetWithBlockReEnter);
 
                     return false;
                 }
@@ -541,13 +518,7 @@ namespace ClosureBT
 
                     ExecuteOnExitMethods(static node =>
                     {
-                        node.ExecuteOnDisableMethods(static node =>
-                        {
-                            node.Resetting = false;
-                            node.SubStatus = SubStatus.None;
-                            node.Status = Status.None;
-                            node.Active = false;
-                        });
+                        node.ExecuteOnDisableMethods(_nodeDisableReset);
                     });
 
                     return false;
@@ -557,14 +528,7 @@ namespace ClosureBT
                 {
                     SubStatus = SubStatus.Disabling;
 
-                    ExecuteOnDisableMethods(static node =>
-                    {
-                        node.Resetting = false;
-                        node.Active = false;
-                        node.BlockReEnter = false;
-                        node.SubStatus = SubStatus.None;
-                        node.Status = Status.None;
-                    });
+                    ExecuteOnDisableMethods(_nodeDisableResetWithBlockReEnter);
 
                     return false;
                 }
@@ -617,14 +581,7 @@ namespace ClosureBT
                     if (node.SubStatus is SubStatus.Done)
                     {
                         node.SubStatus = SubStatus.Disabling;
-                        node.ExecuteOnDisableMethods(static node =>
-                        {
-                            node.Active = false;
-                            node.Resetting = false;
-                            node.BlockReEnter = false;
-                            node.SubStatus = SubStatus.None;
-                            node.Status = Status.None;
-                        });
+                        node.ExecuteOnDisableMethods(_nodeDisableResetWithBlockReEnter);
                     }
                     else
                     {
@@ -637,14 +594,7 @@ namespace ClosureBT
                 {
                     SubStatus = SubStatus.Disabling;
 
-                    ExecuteOnDisableMethods(static node =>
-                    {
-                        node.Active = false;
-                        node.Resetting = false;
-                        node.BlockReEnter = false;
-                        node.SubStatus = SubStatus.None;
-                        node.Status = Status.None;
-                    });
+                    ExecuteOnDisableMethods(_nodeDisableResetWithBlockReEnter);
                 }
                 else if (SubStatus == SubStatus.Running)
                 {
@@ -656,9 +606,9 @@ namespace ClosureBT
 
                         node.ExecuteOnDisableMethods(static node =>
                         {
+                            node.Active = false;
                             node.SubStatus = SubStatus.None;
                             node.Status = Status.None;
-                            node.Active = false;
                         });
                     });
                 }
@@ -668,9 +618,9 @@ namespace ClosureBT
 
                     ExecuteOnDisableMethods(static node =>
                     {
+                        node.Active = false;
                         node.SubStatus = SubStatus.None;
                         node.Status = Status.None;
-                        node.Active = false;
                     });
                 }
 
@@ -708,9 +658,9 @@ namespace ClosureBT
                 {
                     node.ExecuteOnDisableMethods(static node =>
                     {
+                        node.Resetting = false;
                         node.SubStatus = SubStatus.None;
                         node.Status = Status.None;
-                        node.Resetting = false;
                     });
                 }
                 else
