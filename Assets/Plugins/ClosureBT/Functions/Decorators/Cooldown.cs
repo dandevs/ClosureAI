@@ -1,6 +1,5 @@
 #if UNITASK_INSTALLED
 using System;
-using System.Timers;
 using UnityEngine;
 
 namespace ClosureBT
@@ -129,7 +128,7 @@ namespace ClosureBT
             {
                 var node = (DecoratorNode)CurrentNode;
                 var _duration = Variable(0f, duration);
-                var _elapsed = Variable(static () => 0f);
+                var _elapsed = Variable(9999999f);
                 var timeLastTick = Time.timeAsDouble;
 
                 SetNodeName(name);
@@ -140,6 +139,7 @@ namespace ClosureBT
                     timeLastTick = Time.timeAsDouble;
                     return _elapsed.Value >= _duration.Value && node.Child.IsInvalid();
                 });
+
                 OnExit(_ =>
                 {
                     timeLastTick = Time.timeAsDouble;
@@ -160,7 +160,7 @@ namespace ClosureBT
                     }
 
                     // Cooldown has passed, tick the child
-                    if (node.Child.Tick(out var status))
+                    if (node.Child.Tick(out var status, true))
                     {
                         // Child completed, reset elapsed time for next cooldown
                         _elapsed.SetValueSilently(0f);

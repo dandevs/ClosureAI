@@ -8,6 +8,8 @@ namespace ClosureBT
     {
         public static partial class D
         {
+            // Moved to MustCompleteFirst.cs
+
             /// <summary>
             /// Creates a decorator that resets its child node on both entry and exit, ensuring the child always starts fresh.
             /// This forces the child to begin from its initial state rather than resuming from where it left off.

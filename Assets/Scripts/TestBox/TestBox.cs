@@ -46,6 +46,14 @@ public class TestBox : MonoBehaviour
     void Start()
     {
         Tree?.ResetImmediately();
+
+        Tree = D.Repeat() + Sequence(() =>
+        {
+            Wait(1);
+            Wait(1);
+            Wait(1);
+        });
+
         // Tree = Reactive * SequenceAlways("Hi", () =>
         // {
         //     D.While(() => Counter < 100);
@@ -91,41 +99,52 @@ public class TestBox : MonoBehaviour
         //     });
         // });
 
-        Tree = Reactive * SequenceAlways(() =>
-        {
-            var xs = 0;
+        // Tree = Reactive * SequenceAlways(() =>
+        // {
+        //     var xs = 0;
 
-            FooTest();
-            MyCustomLeaf();
+        //     // D.ConditionLatch(() => !Node.IsInvalid(CustomAI));
+        //     D.ConditionLatch(() => Input.GetKey(KeyCode.R));
+        //     Sequence(() =>
+        //     {
+        //         // Condition(() => Input.GetKey(KeyCode.R));
+        //         Wait(0.25f);
+        //         Wait(0.25f);
+        //         Wait(0.25f);
+        //         Wait(0.25f);
+        //     });
 
-            // WaitUntil(() => A);
-            D.Condition(() => A);
-            Leaf(() =>
-            {
-                var x = Variable(() =>
-                {
-                    xs++;
-                    return xs;
-                });
+        //     FooTest();
+        //     MyCustomLeaf();
 
-                OnBaseTick(async (ct, tick) =>
-                {
-                    try
-                    {
-                        while (true)
-                            await tick();
-                    }
-                    finally
-                    {
-                        Debug.Log("Finished");
-                    }
-                });
+        //     // WaitUntil(() => A);
+        //     D.Condition(() => A);
+        //     Leaf(() =>
+        //     {
+        //         var x = Variable(() =>
+        //         {
+        //             xs++;
+        //             return xs;
+        //         });
 
-                OnDisabled(() => Debug.Log("Whaat"));
-            });
+        //         OnBaseTick(async (ct, tick) =>
+        //         {
+        //             try
+        //             {
+        //                 while (true)
+        //                     await tick();
+        //             }
+        //             finally
+        //             {
+        //                 Debug.Log("Finished");
+        //             }
+        //         });
 
-            JustRunning();
-        });
+        //         OnDisabled(() => Debug.Log("Whaat"));
+        //     });
+
+        //     JustRunning();
+        // });
     }
 
     void Update()

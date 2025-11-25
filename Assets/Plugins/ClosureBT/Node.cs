@@ -669,6 +669,7 @@ namespace ClosureBT
 
             public static Node operator +(Node left, Node right)
             {
+                right.Parent = left;
                 return left;
             }
 
@@ -826,21 +827,18 @@ namespace ClosureBT
                             var originalChildren = composite.Children.ToArray();
                             var newChildren = snapshotData.Children[k];
 
-                            // foreach (var child in newChildren)
-                            //     initialSnapshots?.TryAdd(child, child.CreateSnapshot());
-
                             composite.Children.Clear();
                             composite.Children.AddRange(newChildren);
                             var newChildrenOriginalSnapshot = composite.CreateSnapshot();
-                            //
-                            // revertStack.Push(() =>
-                            // {
-                            //     composite.Load(newChildrenOriginalSnapshot);
-                            //     composite.Children.Clear();
-                            //     composite.Children.AddRange(originalChildren);
-                            // });
-                            //
-                            // k++;
+
+                            revertStack.Push(() =>
+                            {
+                                composite.Load(newChildrenOriginalSnapshot);
+                                composite.Children.Clear();
+                                composite.Children.AddRange(originalChildren);
+                            });
+
+                            k++;
                         }
                         else if (node is DecoratorNode decorator)
                         {
@@ -927,10 +925,10 @@ namespace ClosureBT
 #if UNITY_EDITOR
             Node.Traverse(parent, child, static _ => true, static (parent, node) =>
             {
-                node.Editor.RootNode = parent.Editor.RootNode;
+                // node.Editor.RootNode = parent.Editor.RootNode;
             });
 
-            child.Editor.RootNode = parent.Editor.RootNode;
+            // child.Editor.RootNode = parent.Editor.RootNode;
             parent.Editor.NotifyTreeStructureChanged(parent);
             // Debug.Log($"ForceAddChild: {parent.Editor.RootNode.Name} -> {parent.Name} -> {child.Name}");
 #endif

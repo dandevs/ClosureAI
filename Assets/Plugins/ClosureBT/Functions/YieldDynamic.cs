@@ -135,7 +135,9 @@ namespace ClosureBT
                 var result = originalGetNode(ctrl);
 
                 if (result != null)
-                    result.Editor.RootNode = self.Editor.RootNode;
+                    result.Parent = self;
+                // if (result != null)
+                //     result.Editor.RootNode = self.Editor.RootNode;
 
                 return result;
             };

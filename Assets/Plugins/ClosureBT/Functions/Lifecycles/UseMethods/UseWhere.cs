@@ -14,7 +14,7 @@ namespace ClosureBT
         /// <param name="source">The source variable to filter.</param>
         /// <param name="predicate">A function to test each value for a condition.</param>
         /// <returns>A variable that only updates when the predicate returns true.</returns>
-        public static VariableType<T> UseWhere<T>(Func<T, bool> predicate, VariableType<T> source)
+        public static VariableType<T> UseWhere<T>(VariableType<T> source, Func<T, bool> predicate)
         {
             var result = Variable(source.Fn);
 

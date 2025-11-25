@@ -50,7 +50,16 @@ namespace ClosureBT
                 private static readonly string[] _lineSplitStrings = { "\n" };
 
                 public Node Node;
-                public Node RootNode;
+                public Node RootNode
+                {
+                    get
+                    {
+                        var node = Node;
+                        while (node.Parent != null)
+                            node = node.Parent;
+                        return node;
+                    }
+                }
                 // public NodeHistoryTrackerV2 HistoryTracker { get; private set; }
                 public bool IsRootNode => Node == RootNode;
 
@@ -156,7 +165,7 @@ namespace ClosureBT
                 // public EditorOnly()
                 {
                     Node = node;
-                    RootNode = rootNode;
+                    // RootNode = rootNode;
                     SetSourceInfoEditorOnly();
                 }
 
