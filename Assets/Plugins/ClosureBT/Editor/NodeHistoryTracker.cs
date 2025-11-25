@@ -75,7 +75,6 @@ namespace ClosureBT.Editor
         //******************************************************************************************
         #region Event Handlers
 
-        [InitializeOnEnterPlayMode]
         private static void OnPlayModeStateChanged(PlayModeStateChange state)
         {
             // Clear all snapshot data when entering play mode

@@ -117,7 +117,7 @@ namespace ClosureBT
 
         //********************************************************************************************
 
-        public static VariableType<T> Variable<T>(T value = default, Func<T> initializeValue = null)
+        public static VariableType<T> Variable<T>(T value = default, Func<T> onInitialize = null, Func<T> onEnter = null)
         {
             var node = CurrentNode;
 
@@ -142,8 +142,11 @@ namespace ClosureBT
                 node.Variables ??= new();
                 node.Variables.Add(variable);
 
-                if (initializeValue != null)
-                    variable.OnInitialize(() => variable.Value = initializeValue());
+                if (onInitialize != null)
+                    variable.OnInitialize(() => variable.Value = onInitialize());
+
+                if (onEnter != null)
+                    OnEnter(() => variable.Value = onEnter());
 
                 return variable;
             }
