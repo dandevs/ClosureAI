@@ -216,7 +216,7 @@ namespace ClosureBT.Editor
                     PreviousRootNode = RootNode;
 
                 if (Object is MonoBehaviour mb)
-                    titleContent.text = $"({mb.GetType().Name} / {_treeFieldName}) Tree Graph";
+                    titleContent.text = $"({mb.gameObject.name} -> {mb.GetType().Name}) / {_treeFieldName} Tree Graph";
             }
             finally
             {

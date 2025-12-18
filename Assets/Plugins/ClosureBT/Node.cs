@@ -48,7 +48,7 @@ namespace ClosureBT
                 {
                     if (_cancelledTokenSource == null)
                     {
-                        _cancelledTokenSource = new CancellationTokenSource();
+                        _cancelledTokenSource = new();
                         _cancelledTokenSource.Cancel();
                     }
 
@@ -197,8 +197,13 @@ namespace ClosureBT
             internal List<Action> OnTrueReset;
             internal Func<bool> OnInvalidateCheck = static () => false;
 
-            private Action<Node> _onAnyTick;
-            internal Action<Node> OnAnyTick;
+            internal readonly List<Action<Node>> OnAnyTicks = new();
+
+            private void InvokeOnAnyTicks()
+            {
+                for (var i = 0; i < OnAnyTicks.Count; i++)
+                    OnAnyTicks[i]?.Invoke(this);
+            }
 
             private CancellationTokenSource _cancellationTokenSource;
             internal CancellationTokenSource CancellationTokenSource => _cancellationTokenSource ??= CancellationTokenSourcePool.Get();
@@ -261,7 +266,7 @@ namespace ClosureBT
 
             public bool Tick(out Status status, bool allowReEnter = false)
             {
-                OnAnyTick?.Invoke(this);
+                InvokeOnAnyTicks();
 
                 if (Resetting)
                 {
@@ -366,14 +371,23 @@ namespace ClosureBT
 #if UNITY_EDITOR
                         EditorApplication.isPaused = true;
                         Editor.NotifyExceptionThrown(this);
-#endif
-
+                        throw new NodeException(this, exception);
+#else
                         Debug.LogException(new NodeException(this, exception));
+#endif
                     }
                 }
 
                 if (Status is Status.Success or Status.Failure && SubStatus == SubStatus.Running)
                 {
+                    // Cancel any active async OnTick
+                    if (OnAnyTicks.Count > 0)
+                    {
+                        _cancellationTokenSource?.Cancel();
+                        _cancellationTokenSource = null;
+                        OnAnyTicks.Clear();
+                    }
+
                     if (Status is Status.Success)
                     {
                         SubStatus = SubStatus.Succeeding;
@@ -541,7 +555,7 @@ namespace ClosureBT
                 var initSubStatus = SubStatus;
 
                 if (invokeAnyTick)
-                    OnAnyTick?.Invoke(this);
+                    InvokeOnAnyTicks();
 
                 switch (SubStatus)
                 {
@@ -556,9 +570,9 @@ namespace ClosureBT
                         break;
 
                     case SubStatus.Running:
-                        if (OnAnyTick != null) // OnBaseTick/OnTick is using AsyncTickCore
+                        if (OnAnyTicks.Count > 0) // OnBaseTick/OnTick is using AsyncTickCore
                         {
-                            // OnAnyTick = null;
+                            // OnAnyTick handlers cleared on completion
                             CancelCancellationTokenSource();
                             _cancellationTokenSource = null;
                         }
@@ -639,7 +653,7 @@ namespace ClosureBT
                 {
                     SubStatus = SubStatus.Exiting;
 
-                    if (Status == Status.Running && OnAnyTick != null)
+                    if (Status == Status.Running && OnAnyTicks.Count > 0)
                     {
                         CancelCancellationTokenSource();
                         _cancellationTokenSource = null;
@@ -648,7 +662,7 @@ namespace ClosureBT
                     ExecuteOnExitMethods(continuation, suppressCancellationThrow).Forget();
                 }
 
-                OnAnyTick?.Invoke(this);
+                InvokeOnAnyTicks();
                 return SubStatus != SubStatus.Exiting;
             }
 
@@ -667,9 +681,25 @@ namespace ClosureBT
                     node.SubStatus = SubStatus.Done;
             });
 
-            public static Node operator +(Node left, Node right)
+            public static DecoratorNode operator +(DecoratorNode left, Node right)
             {
-                right.Parent = left;
+                var deco = left;
+                // Debug.Log($"Attempting left: {left.Name} (child left = {left.Child?.Name ?? "None"}), right: {right.Name}");
+
+                while (deco.Child != null)
+                {
+                    if (deco.Child is DecoratorNode child)
+                        deco = child;
+                    else
+                        break;
+                }
+
+                if (deco != right)
+                {
+                    deco.Child = right;
+                    right.Parent = deco;
+                }
+
                 return left;
             }
 
@@ -923,10 +953,10 @@ namespace ClosureBT
             child.Parent = parent;
 
 #if UNITY_EDITOR
-            Node.Traverse(parent, child, static _ => true, static (parent, node) =>
-            {
+            // Node.Traverse(parent, child, static _ => true, static (parent, node) =>
+            // {
                 // node.Editor.RootNode = parent.Editor.RootNode;
-            });
+            // });
 
             // child.Editor.RootNode = parent.Editor.RootNode;
             parent.Editor.NotifyTreeStructureChanged(parent);

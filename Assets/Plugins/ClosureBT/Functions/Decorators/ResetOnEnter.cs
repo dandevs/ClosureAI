@@ -114,7 +114,7 @@ namespace ClosureBT
             {
                 var node = (DecoratorNode)CurrentNode;
 
-                OnInvalidCheck(() => node.Child.IsInvalid());
+                OnInvalidCheck(static () => true);
                 OnExit(_ => ResetNode(node.Child));
                 OnEnter(_ => ResetNode(node.Child));
 

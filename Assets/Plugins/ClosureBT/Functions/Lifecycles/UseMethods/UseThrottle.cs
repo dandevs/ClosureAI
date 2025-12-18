@@ -8,8 +8,8 @@ namespace ClosureBT
     public static partial class BT
     {
         /// <summary>
-        /// Creates a variable that throttles signals from a VariableType source, only propagating at most once per specified delay period.
-        /// Useful for limiting the frequency of updates when source signals occur rapidly, enabling FRP-style reactive programming.
+        /// Creates a variable that throttles signals from a source variable, only propagating at most once per specified delay period.
+        /// Useful for limiting the frequency of updates when the source signals rapidly.
         /// </summary>
         /// <typeparam name="T">The type of value to throttle.</typeparam>
         /// <param name="delay">The minimum delay in seconds between updates.</param>

@@ -30,7 +30,7 @@ namespace ClosureBT
         /// <para><b>Cleanup:</b> All TCS are cleared after the callback completes or cancels</para>
         /// <para><b>Internal Use:</b> This is used by OnEnabled, OnDisabled, OnEnter, OnExit, OnSuccess, OnFailure with Tick Core overloads</para>
         /// </remarks>
-        /// <param name="node">The node this async operation belongs to (for OnAnyTick registration).</param>
+        /// <param name="node">The node this async operation belongs to (for OnAnyTick handler registration).</param>
         /// <param name="action">The async action receiving a CancellationToken and tick function.</param>
         /// <returns>A function that executes the async action with tick support when called.</returns>
         internal static Func<CancellationToken, UniTask> CreateAsyncTickCore(Node node, Func<CancellationToken, Func<UniTask>, UniTask> action)
@@ -45,15 +45,15 @@ namespace ClosureBT
                 return tcs.Task;
             };
 
-            Action cancelAllTCS = () =>
+            var cancelAllTCS = new Action(() =>
             {
                 for (var i = 0; i < tcsList.Count; i++)
                     tcsList[i].tcs.TrySetCanceled();
 
                 tcsList.Clear();
-            };
+            });
 
-            Action<Node> onAnyTick = _ =>
+            var onAnyTick = new Action<Node>(_ =>
             {
                 for (var i = 0; i < tcsList.Count; i++)
                 {
@@ -67,23 +67,26 @@ namespace ClosureBT
                 }
 
                 ticksElapsed++;
-            };
+            });
 
             return async ct =>
             {
-                // var previousAnyTick = node.OnAnyTick;
                 ticksElapsed = 0;
-                CancellationTokenRegistration ctRegistration = default;
+                var ctRegistration = default(CancellationTokenRegistration);
 
                 try
                 {
-                    node.OnAnyTick = onAnyTick;
+                    node.OnAnyTicks.Add(onAnyTick);
                     ctRegistration = ct.RegisterWithoutCaptureExecutionContext(cancelAllTCS);
                     await action(ct, createTCS);
                 }
+                catch (Exception exception)
+                {
+                    throw new NodeException(node, exception);
+                }
                 finally
                 {
-                    node.OnAnyTick = null;
+                    node.OnAnyTicks.Remove(onAnyTick);
                     ctRegistration.Dispose();
                     cancelAllTCS();
                 }
@@ -133,12 +136,14 @@ namespace ClosureBT
         /// </example>
         internal static Func<Status> CreateAsyncTickCore(Node node, Func<CancellationToken, Func<UniTask>, UniTask<Status>> action)
         {
+            var _completed = Variable(onEnter: static () => false);
             var started = false;
             var status = Status.Running;
             var tcsList = new List<(int tickCreated, AutoResetUniTaskCompletionSource tcs)>();
             var ticksElapsed = 0;
             var cancelled = false;
-            CancellationTokenRegistration ctRegistration = default;
+            var ctRegistration = default(CancellationTokenRegistration);
+            var onAnyTick = new Action<Node>(static _ => {});
 
             Func<UniTask> createTCS = () =>
             {
@@ -147,9 +152,9 @@ namespace ClosureBT
                 return tcs.Task;
             };
 
-            Action cancelAllTCS = () =>
+            var cancelAllTCS = new Action(() =>
             {
-                node.OnAnyTick = null;
+                node.OnAnyTicks.Remove(onAnyTick);
 
                 for (var i = 0; i < tcsList.Count; i++)
                     tcsList[i].tcs.TrySetCanceled();
@@ -159,23 +164,37 @@ namespace ClosureBT
                 started = false;
                 ticksElapsed = 0;
                 ctRegistration.Dispose();
-            };
+            });
 
             async UniTaskVoid Run()
             {
-                var ct = node.GetCancellationToken();
-                status = await action(ct, createTCS);
+                try
+                {
+                    status = await action(node.GetCancellationToken(), createTCS);
+                }
+                catch (OperationCanceledException)
+                {
+                    if (!node.Resetting)
+                        throw;
+                }
+                catch (Exception exception)
+                {
+                    throw new NodeException(node, exception);
+                }
             }
 
             return () =>
             {
+                if (_completed.Value)
+                    return Status.Success;
+
                 if (!started)
                 {
                     started = true;
                     cancelled = false;
                     ticksElapsed = 0;
                     status = Status.Running;
-                    node.OnAnyTick = static n => {};
+                    node.OnAnyTicks.Add(onAnyTick);
                     ctRegistration = node.GetCancellationToken().RegisterWithoutCaptureExecutionContext(cancelAllTCS);
                     Run().Forget();
                 }
@@ -201,7 +220,9 @@ namespace ClosureBT
                 {
                     started = false;
                     cancelled = false;
+                    _completed.SetValueSilently(true);
                     ctRegistration.Dispose();
+                    node.OnAnyTicks.Remove(onAnyTick);
                     return status;
                 }
 

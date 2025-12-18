@@ -8,7 +8,7 @@ namespace ClosureBT
     {
         /// <summary>
         /// Creates a variable that filters values from a source variable using a predicate function.
-        /// Similar to LINQ's Where, this only propagates values that satisfy the condition, enabling FRP-style reactive programming.
+        /// Only propagates values that satisfy the condition; other values are ignored.
         /// </summary>
         /// <typeparam name="T">The type of values to filter.</typeparam>
         /// <param name="source">The source variable to filter.</param>

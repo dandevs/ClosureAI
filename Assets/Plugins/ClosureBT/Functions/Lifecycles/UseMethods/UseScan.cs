@@ -7,8 +7,8 @@ namespace ClosureBT
     {
         /// <summary>
         /// Creates a variable that accumulates values over time using an accumulator function.
-        /// Similar to Array.Reduce but for reactive streams - each new value is combined with the accumulated result.
-        /// Useful for tracking cumulative totals, combo counters, or any stateful aggregation, enabling FRP-style reactive programming.
+        /// Each new signal is combined with the accumulated result, updating the output.
+        /// Useful for tracking cumulative totals, combo counters, or any stateful aggregation.
         /// </summary>
         /// <typeparam name="TSource">The type of the source values.</typeparam>
         /// <typeparam name="TAccumulate">The type of the accumulated result.</typeparam>
@@ -33,7 +33,7 @@ namespace ClosureBT
 
         /// <summary>
         /// Creates a variable that accumulates values over time using an accumulator function with index tracking.
-        /// Similar to Array.Reduce but includes the signal index in the accumulator function, enabling FRP-style reactive programming.
+        /// Each new signal is combined with the accumulated result, and the zero-based signal index is also provided.
         /// </summary>
         /// <typeparam name="TSource">The type of the source values.</typeparam>
         /// <typeparam name="TAccumulate">The type of the accumulated result.</typeparam>

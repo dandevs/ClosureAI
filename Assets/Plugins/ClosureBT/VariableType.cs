@@ -105,8 +105,8 @@ namespace ClosureBT
                     name = Name;
 #endif
 
-                    Debug.LogError($"Variable Cast Error: '{name}' cannot cast '{valueType}' to '{expectedType}'{nodeInfo}. " +
-                                  $"Value: '{value}'{Environment.NewLine}Original Exception: {ex.Message}");
+                    // Debug.LogError($"Variable Cast Error: '{name}' cannot cast '{valueType}' to '{expectedType}'{nodeInfo}. " +
+                    //               $"Value: '{value}'{Environment.NewLine}Original Exception: {ex.Message}");
 
                     throw new InvalidCastException($"Cannot cast '{valueType}' to '{expectedType}'{nodeInfo}. Value: '{value}'", ex);
                 }

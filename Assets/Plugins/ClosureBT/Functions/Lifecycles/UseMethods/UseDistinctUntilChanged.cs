@@ -9,7 +9,7 @@ namespace ClosureBT
         /// <summary>
         /// Creates a variable that only emits when the value from a source variable actually changes.
         /// Compares consecutive values and only propagates signals when they differ, preventing duplicate updates.
-        /// Useful for preventing redundant state transitions and avoiding unnecessary processing, enabling FRP-style reactive programming.
+        /// Useful for preventing redundant state transitions and avoiding unnecessary processing.
         /// </summary>
         /// <typeparam name="T">The type of value to monitor for changes.</typeparam>
         /// <param name="source">The source variable to monitor for distinct changes.</param>

@@ -99,7 +99,7 @@ namespace ClosureBT
             /// MyChildNode();
             /// </code>
             /// </remarks>
-            public static DecoratorNode While(string name, Func<bool> condition) => Decorator("While", () =>
+            public static DecoratorNode While(string name, Func<bool> condition, Action lifecycle = null) => Decorator("While", () =>
             {
                 var node = (DecoratorNode)CurrentNode;
 
@@ -125,6 +125,8 @@ namespace ClosureBT
 
                     return Status.Running;
                 });
+
+                lifecycle?.Invoke();
             });
 
             /// <summary>
@@ -137,9 +139,9 @@ namespace ClosureBT
             /// This is a convenience overload that uses "While" as the default node name.
             /// See <see cref="While(string, Func{bool})"/> for detailed behavior description.
             /// </remarks>
-            public static DecoratorNode While(Func<bool> condition)
+            public static DecoratorNode While(Func<bool> condition, Action lifecycle = null)
             {
-                return While("While", condition);
+                return While("While", condition, lifecycle);
             }
         }
     }

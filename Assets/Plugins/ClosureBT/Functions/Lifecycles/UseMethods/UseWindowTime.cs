@@ -10,12 +10,12 @@ namespace ClosureBT
         /// <summary>
         /// Creates a variable that maintains a sliding time window of values from a source variable.
         /// Collects all signals that occurred within the specified time duration, automatically removing old values.
-        /// Useful for tracking recent events like "damage taken in last 3 seconds" or "inputs in last 0.5 seconds", enabling FRP-style reactive programming.
+        /// Useful for tracking recent events like "damage taken in last 3 seconds" or "inputs in last 0.5 seconds".
         /// </summary>
         /// <typeparam name="T">The type of values to collect in the window.</typeparam>
         /// <param name="windowDuration">The duration in seconds to keep values in the window.</param>
         /// <param name="source">The source variable to monitor for signals.</param>
-        /// <returns>A variable containing a list of timestamped values within the time window.</returns>
+        /// <returns>A variable containing a list of values within the time window.</returns>
         public static VariableType<List<T>> UseWindowTime<T>(float windowDuration, VariableType<T> source)
         {
             var window = Variable(new List<T>());

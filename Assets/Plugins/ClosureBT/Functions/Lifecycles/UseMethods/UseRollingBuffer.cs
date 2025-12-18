@@ -8,14 +8,14 @@ namespace ClosureBT
     public static partial class BT
     {
         /// <summary>
-        /// Creates a variable that maintains a rolling buffer of values with a specified maximum count using a VariableType source.
-        /// When the buffer exceeds the count, the oldest values are removed. The buffer reacts to source variable signals, enabling FRP-style reactive programming.
+        /// Creates a variable that maintains a rolling buffer of values with a specified maximum count.
+        /// When the buffer exceeds the count, the oldest values are removed.
         /// </summary>
         /// <typeparam name="T">The type of values to store in the buffer.</typeparam>
         /// <param name="count">The maximum number of values to keep in the buffer.</param>
-        /// <param name="waitToFillBufferFirst">Wait for the List to have its Count reach the specified count before emitting values</param>
+        /// <param name="waitToFillBufferFirst">If true, waits for the buffer to reach full capacity before emitting signals.</param>
         /// <param name="source">The source variable to monitor for changes.</param>
-        /// <returns>A variable containing a List of buffered values.</returns>
+        /// <returns>A variable containing a list of buffered values.</returns>
         public static VariableType<List<T>> UseRollingBuffer<T>(int count, bool waitToFillBufferFirst, VariableType<T> source)
         {
             count = Mathf.Max(1, count);

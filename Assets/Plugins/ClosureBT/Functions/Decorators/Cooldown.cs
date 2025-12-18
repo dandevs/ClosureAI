@@ -129,6 +129,7 @@ namespace ClosureBT
                 var node = (DecoratorNode)CurrentNode;
                 var _duration = Variable(0f, duration);
                 var _elapsed = Variable(9999999f);
+                var _entering = Variable(false);
                 var timeLastTick = Time.timeAsDouble;
 
                 SetNodeName(name);

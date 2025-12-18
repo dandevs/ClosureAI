@@ -8,8 +8,8 @@ namespace ClosureBT
     public static partial class BT
     {
         /// <summary>
-        /// Creates a variable that debounces signals from a VariableType source, only propagating after the source stops changing for the specified delay period.
-        /// Useful for waiting until rapid changes settle before reacting, enabling FRP-style reactive programming.
+        /// Creates a variable that debounces signals from a source variable, only propagating after the source stops changing for the specified delay period.
+        /// Useful for waiting until rapid changes settle before reacting.
         /// </summary>
         /// <typeparam name="T">The type of value to debounce.</typeparam>
         /// <param name="delay">The delay in seconds to wait after the last change before updating.</param>

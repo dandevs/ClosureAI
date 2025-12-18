@@ -35,7 +35,11 @@ namespace ClosureBT
                             }
                             catch (Exception exception)
                             {
+#if UNITY_EDITOR
+                                throw new NodeException(node, exception, lifecycle);
+#else
                                 Debug.LogException(new NodeException(node, exception, lifecycle));
+#endif
                             }
                         }
                         else
@@ -46,7 +50,11 @@ namespace ClosureBT
                             }
                             catch (Exception exception)
                             {
+#if UNITY_EDITOR
+                                throw new NodeException(node, exception, lifecycle);
+#else
                                 Debug.LogException(new NodeException(node, exception, lifecycle));
+#endif
                             }
                         }
                     }

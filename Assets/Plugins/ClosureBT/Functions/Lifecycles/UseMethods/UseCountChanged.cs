@@ -7,8 +7,8 @@ namespace ClosureBT
     public static partial class BT
     {
         /// <summary>
-        /// Creates a variable that counts how many times a VariableType source has signaled since the node started.
-        /// The counter increments by 1 each time the source variable signals, enabling FRP-style reactive programming.
+        /// Creates a variable that counts how many times a source variable has signaled since the node started.
+        /// The counter increments by 1 each time the source variable signals.
         /// </summary>
         /// <typeparam name="T">The type of value in the source variable.</typeparam>
         /// <param name="source">The source variable to monitor for signals.</param>

@@ -15,7 +15,7 @@ namespace ClosureBT
         public Node FailedNode;
         public string Lifecycle;
 
-        public NodeException(Node failedNode, Exception exception, string lifecycle = null)
+        public NodeException(Node failedNode, Exception exception, string lifecycle = null) : base(exception.Message, exception)
         {
             OriginalException = exception;
             FailedNode = failedNode;
@@ -57,7 +57,7 @@ namespace ClosureBT
                 }
 
                 sb.AppendLine(".");
-                sb.AppendLine(OriginalException?.StackTrace);
+                // sb.AppendLine(OriginalException?.StackTrace);
 
                 return sb.ToString();
             }

@@ -1,5 +1,7 @@
 #if UNITASK_INSTALLED
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace ClosureBT
 {
@@ -47,6 +49,32 @@ namespace ClosureBT
         public static void OnPreTick(Action action)
         {
             CurrentNode?.OnPreTicks.Add(action);
+        }
+
+        /// <summary>
+        /// Registers an asynchronous callback with Tick Core support to execute during the <see cref="SubStatus.Running"/> phase before <see cref="OnBaseTick"/>.
+        /// This allows multi-tick async side effects that run alongside the main node logic.
+        /// Unlike <see cref="OnBaseTick"/>, this doesn't affect the node's status.
+        /// </summary>
+        /// <remarks>
+        /// <para><b>Lifecycle Position:</b> None → Enabling → Entering → <b>Running</b> → Success/Failure → Exiting → Done</para>
+        /// <para><b>Tick Core Pattern:</b> The <c>Func&lt;UniTask&gt;</c> parameter returns a task that completes on the next tick.</para>
+        /// <para><b>Side Effects Only:</b> OnPreTick doesn't return a status - it's for side effects like updating sensors, preparing data, etc.</para>
+        /// <para><b>Async Fire-and-Forget:</b> The async operation runs in the background; the node continues immediately.</para>
+        /// </remarks>
+        /// <param name="action">The async action receiving a CancellationToken and tick function for multi-tick side effects.</param>
+        public static void OnPreTick(Func<CancellationToken, Func<UniTask>, UniTask> action)
+        {
+            if (CurrentNode != null)
+            {
+                var core = CreateAsyncTickCore(CurrentNode, async (ct, tick) =>
+                {
+                    await action(ct, tick);
+                    return Status.Success;
+                });
+
+                CurrentNode.OnPreTicks.Add(() => core());
+            }
         }
     }
 }

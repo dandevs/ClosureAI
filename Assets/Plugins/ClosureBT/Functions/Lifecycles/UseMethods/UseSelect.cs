@@ -7,7 +7,7 @@ namespace ClosureBT
     {
         /// <summary>
         /// Creates a variable that transforms values from a source variable using a selector function.
-        /// Similar to LINQ's Select, this projects each value through a transformation, enabling FRP-style reactive programming.
+        /// Each signal from the source is projected through the transformation before being emitted.
         /// </summary>
         /// <typeparam name="TSource">The type of the source values.</typeparam>
         /// <typeparam name="TResult">The type of the transformed values.</typeparam>

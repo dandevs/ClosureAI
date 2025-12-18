@@ -123,5 +123,4 @@ namespace ClosureBT
         }
     }
 }
-
 #endif
