@@ -1,5 +1,7 @@
 #if UNITASK_INSTALLED
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace ClosureBT
 {
@@ -49,6 +51,52 @@ namespace ClosureBT
             OnBaseTick(() =>
             {
                 action();
+                return Status.Success;
+            });
+
+            setup?.Invoke();
+        });
+
+        /// <summary>
+        /// Creates a leaf node that executes an asynchronous action (UniTask) and returns Success when complete.
+        /// This node stays in Running state while the task is executing, and returns Success when the task finishes.
+        /// </summary>
+        /// <param name="name">The name of the node for debugging and visualization</param>
+        /// <param name="action">The asynchronous action to execute. Must accept a CancellationToken.</param>
+        /// <param name="setup">Optional setup callbacks to configure the node's behavior</param>
+        /// <returns>A leaf node that executes the async action and succeeds upon completion</returns>
+        /// <remarks>
+        /// <para><b>Behavior:</b></para>
+        /// <list type="bullet">
+        /// <item>Executes the provided async action in OnBaseTick</item>
+        /// <item>Waits for the task to complete (async await)</item>
+        /// <item>Returns <see cref="Status.Success"/> when the task completes successfully</item>
+        /// <item>Propagates cancellation if the node is interrupted/reset via the CancellationToken</item>
+        /// </list>
+        ///
+        /// <para><b>Common Use Cases:</b></para>
+        /// <list type="bullet">
+        /// <item>Waiting for asynchronous operations (e.g., loading resources, network requests)</item>
+        /// <item>Executing async sequences that interact with other async APIs</item>
+        /// <item>Performing long-running calculations asynchronously</item>
+        /// </list>
+        ///
+        /// <para><b>Example:</b></para>
+        /// <code>
+        /// Sequence(() =>
+        /// {
+        ///     Do("Load Asset", async (ct) => await Resources.LoadAsync("MyPrefab").WithCancellation(ct));
+        ///     Do("Wait", async (ct) => await UniTask.Delay(1000, cancellationToken: ct));
+        /// });
+        /// </code>
+        /// </remarks>
+        public static Node Do(string name, Func<CancellationToken, UniTask> action, Action setup = null) => Leaf("Do", () =>
+        {
+            SetNodeName(name);
+
+            OnBaseTick(async (ct, tick) =>
+            {
+                await action(ct);
                 return Status.Success;
             });
 

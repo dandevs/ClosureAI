@@ -1,3 +1,4 @@
+#if UNITASK_INSTALLED
 using System;
 using UnityEngine;
 
@@ -94,3 +95,4 @@ namespace ClosureBT
             }
     }
 }
+#endif

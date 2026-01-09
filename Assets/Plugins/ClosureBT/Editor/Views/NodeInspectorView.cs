@@ -49,10 +49,10 @@ namespace ClosureBT.Editor.UI
                             borderBottomWidth = 1,
                             borderLeftWidth = 1,
                             borderRightWidth = 1,
-                            borderTopColor = new Color(0.15f, 0.15f, 0.15f, 1f),
-                            borderBottomColor = new Color(0.15f, 0.15f, 0.15f, 1f),
-                            borderLeftColor = new Color(0.15f, 0.15f, 0.15f, 1f),
-                            borderRightColor = new Color(0.15f, 0.15f, 0.15f, 1f),
+                            borderTopColor = ColorPalette.PrimaryBorder,
+                            borderBottomColor = ColorPalette.PrimaryBorder,
+                            borderLeftColor = ColorPalette.PrimaryBorder,
+                            borderRightColor = ColorPalette.PrimaryBorder,
                             overflow = Overflow.Hidden,
                         });
 
@@ -91,7 +91,7 @@ namespace ClosureBT.Editor.UI
             Style(new()
             {
                 fontSize = 10,
-                color = ColorPalette.DimGrayText,
+                color = ColorPalette.TertiaryText,
                 unityFontStyleAndWeight = FontStyle.Normal,
                 marginBottom = 4,
                 letterSpacing = 0.5f,
@@ -104,7 +104,7 @@ namespace ClosureBT.Editor.UI
             {
                 fontSize = 15,
                 unityFontStyleAndWeight = FontStyle.Bold,
-                color = ColorPalette.VeryLightGrayText,
+                color = ColorPalette.PrimaryText,
                 marginBottom = 2,
             });
 
@@ -185,7 +185,7 @@ namespace ClosureBT.Editor.UI
             {
                 fontSize = 11,
                 unityFontStyleAndWeight = FontStyle.Bold,
-                color = ColorPalette.LightGrayText,
+                color = ColorPalette.SecondaryText,
                 marginBottom = 0,
                 marginTop = 0,
                 marginLeft = 12,
@@ -338,7 +338,7 @@ namespace ClosureBT.Editor.UI
                 Style(new()
                 {
                     fontSize = 11,
-                    color = ColorPalette.DimGrayText,
+                    color = ColorPalette.TertiaryText,
                     unityFontStyleAndWeight = FontStyle.Italic,
                     unityTextAlign = TextAnchor.MiddleCenter,
                 });
@@ -373,7 +373,7 @@ namespace ClosureBT.Editor.UI
 
                 h.RegisterCallback<MouseEnterEvent>(evt =>
                 {
-                    h.style.backgroundColor = new Color(0.25f, 0.25f, 0.25f, 0.5f);
+                    h.style.backgroundColor = ColorPalette.HoverBackground;
                 });
 
                 h.RegisterCallback<MouseLeaveEvent>(evt =>
@@ -388,7 +388,7 @@ namespace ClosureBT.Editor.UI
                     Style(new()
                     {
                         fontSize = 9,
-                        color = ColorPalette.MediumGrayText,
+                        color = ColorPalette.TertiaryText,
                         marginRight = 8,
                         unityTextAlign = TextAnchor.MiddleCenter,
                         minWidth = 10,
@@ -403,7 +403,7 @@ namespace ClosureBT.Editor.UI
                     {
                         fontSize = 10,
                         padding = 8,
-                        color = ColorPalette.MediumGrayText,
+                        color = ColorPalette.TertiaryText,
                         unityFontStyleAndWeight = FontStyle.Normal,
                     });
                 });

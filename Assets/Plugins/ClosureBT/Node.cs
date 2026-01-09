@@ -194,7 +194,6 @@ namespace ClosureBT
 
             public readonly List<Action> OnTicks = new();
             public readonly List<Action> OnPreTicks = new();
-            internal List<Action> OnTrueReset;
             internal Func<bool> OnInvalidateCheck = static () => false;
 
             internal readonly List<Action<Node>> OnAnyTicks = new();

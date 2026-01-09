@@ -39,7 +39,7 @@ namespace ClosureBT.Editor.UI
 
             // Panel styling
             style.flexShrink = 0;
-            style.backgroundColor = new Color(0.22f, 0.22f, 0.22f, 1f); // Dark background
+            style.backgroundColor = ColorPalette.PanelBackground;
 
             // Set initial size based on bar position
             if (_barPosition is BarPosition.Left or BarPosition.Right)
@@ -113,7 +113,7 @@ namespace ClosureBT.Editor.UI
 
         private void SetResizeBarProperties()
         {
-            _resizeBar.style.backgroundColor = new Color(0.3f, 0.3f, 0.3f, 1f);
+            _resizeBar.style.backgroundColor = ColorPalette.ResizeBarBackground;
             _resizeBar.style.position = Position.Absolute;
 
             // Set up transitions
@@ -167,7 +167,7 @@ namespace ClosureBT.Editor.UI
 
         private void SetResizeHandleProperties()
         {
-            _resizeHandle.style.backgroundColor = new Color(0.6f, 0.6f, 0.6f, 0.8f);
+            _resizeHandle.style.backgroundColor = ColorPalette.ResizeHandleColor;
             _resizeHandle.style.position = Position.Absolute;
 
             _resizeHandle.style.transitionProperty = new List<StylePropertyName>
@@ -293,8 +293,8 @@ namespace ClosureBT.Editor.UI
             if (_dragging)
             {
                 // Active dragging state
-                _resizeBar.style.backgroundColor = new Color(0.4f, 0.6f, 1f, 1f); // Blue accent
-                _resizeHandle.style.backgroundColor = new Color(1f, 1f, 1f, 1f); // White
+                _resizeBar.style.backgroundColor = ColorPalette.ResizeBarActiveBackground;
+                _resizeHandle.style.backgroundColor = new Color(1f, 1f, 1f, 1f); // White for visibility
 
                 if (isHorizontal)
                 {
@@ -310,8 +310,8 @@ namespace ClosureBT.Editor.UI
             else if (_hovering)
             {
                 // Hover state
-                _resizeBar.style.backgroundColor = new Color(0.45f, 0.45f, 0.45f, 1f); // Lighter
-                _resizeHandle.style.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1f); // Lighter
+                _resizeBar.style.backgroundColor = ColorPalette.ResizeBarHoverBackground;
+                _resizeHandle.style.backgroundColor = ColorPalette.ResizeHandleHoverColor;
 
                 if (isHorizontal)
                 {
@@ -327,8 +327,8 @@ namespace ClosureBT.Editor.UI
             else
             {
                 // Default state
-                _resizeBar.style.backgroundColor = new Color(0.3f, 0.3f, 0.3f, 1f);
-                _resizeHandle.style.backgroundColor = new Color(0.6f, 0.6f, 0.6f, 0.8f);
+                _resizeBar.style.backgroundColor = ColorPalette.ResizeBarBackground;
+                _resizeHandle.style.backgroundColor = ColorPalette.ResizeHandleColor;
 
                 if (isHorizontal)
                 {

@@ -41,6 +41,73 @@ namespace ClosureBT.Editor
         public static Color SubtleBorder => new Color(0.2f, 0.2f, 0.2f, 1f);
         public static Color MediumBorder => new Color(0.3f, 0.3f, 0.3f, 1f);
 
+        // Theme-aware text colors
+        public static Color PrimaryText => IsDarkMode
+            ? new Color(0.9f, 0.9f, 0.9f, 1f)    // Light text for dark mode
+            : new Color(0.1f, 0.1f, 0.1f, 1f);   // Dark text for light mode
+
+        public static Color SecondaryText => IsDarkMode
+            ? new Color(0.7f, 0.7f, 0.7f, 1f)
+            : new Color(0.35f, 0.35f, 0.35f, 1f);
+
+        public static Color TertiaryText => IsDarkMode
+            ? new Color(0.6f, 0.6f, 0.6f, 1f)
+            : new Color(0.45f, 0.45f, 0.45f, 1f);
+
+        public static Color DisabledText => IsDarkMode
+            ? new Color(0.5f, 0.5f, 0.5f, 1f)
+            : new Color(0.55f, 0.55f, 0.55f, 1f);
+
+        // Theme-aware panel and UI element colors
+        public static Color PanelBackground => IsDarkMode
+            ? new Color(0.22f, 0.22f, 0.22f, 1f)
+            : new Color(0.78f, 0.78f, 0.78f, 1f);
+
+        public static Color ResizeBarBackground => IsDarkMode
+            ? new Color(0.3f, 0.3f, 0.3f, 1f)
+            : new Color(0.65f, 0.65f, 0.65f, 1f);
+
+        public static Color ResizeBarHoverBackground => IsDarkMode
+            ? new Color(0.45f, 0.45f, 0.45f, 1f)
+            : new Color(0.55f, 0.55f, 0.55f, 1f);
+
+        public static Color ResizeBarActiveBackground => new Color(0.4f, 0.6f, 1f, 1f); // Blue accent stays the same
+
+        public static Color ResizeHandleColor => IsDarkMode
+            ? new Color(0.6f, 0.6f, 0.6f, 0.8f)
+            : new Color(0.4f, 0.4f, 0.4f, 0.8f);
+
+        public static Color ResizeHandleHoverColor => IsDarkMode
+            ? new Color(0.8f, 0.8f, 0.8f, 1f)
+            : new Color(0.3f, 0.3f, 0.3f, 1f);
+
+        // Theme-aware border colors
+        public static Color PrimaryBorder => IsDarkMode
+            ? new Color(0.15f, 0.15f, 0.15f, 1f)
+            : new Color(0.7f, 0.7f, 0.7f, 1f);
+
+        public static Color SecondaryBorder => IsDarkMode
+            ? new Color(0.2f, 0.2f, 0.2f, 1f)
+            : new Color(0.65f, 0.65f, 0.65f, 1f);
+
+        // Node stack viewer colors
+        public static Color NodeStackBackground => IsDarkMode
+            ? new Color(0.15f, 0.15f, 0.15f, 1f)
+            : new Color(0.72f, 0.72f, 0.72f, 1f);
+
+        public static Color NodeStackZebraStripe => IsDarkMode
+            ? new Color(0.0f, 0.0f, 0.0f, 0.15f)
+            : new Color(0.0f, 0.0f, 0.0f, 0.05f);
+
+        public static Color NodeStackDivider => IsDarkMode
+            ? new Color(1f, 1f, 1f, 0.05f)
+            : new Color(0f, 0f, 0f, 0.08f);
+
+        // Hidden variables hover color
+        public static Color HoverBackground => IsDarkMode
+            ? new Color(0.25f, 0.25f, 0.25f, 0.5f)
+            : new Color(0.0f, 0.0f, 0.0f, 0.08f);
+
         // Main Inspector background colors
         public static Color WindowBackground => GetBackgroundColor("window");
         public static Color BoxBackground => GetBackgroundColor("box");

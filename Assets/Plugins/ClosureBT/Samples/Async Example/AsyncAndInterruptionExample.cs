@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using static ClosureBT.BT;
 
 namespace ClosureBT.Samples.MemoryGame
@@ -10,6 +9,8 @@ namespace ClosureBT.Samples.MemoryGame
     public class AsyncAndInterruptionExample : MonoBehaviour
     {
         public Node AI;
+        public bool Condition1;
+        public bool Condition2;
         private string _text = null;
 
         private void Update() => AI.Tick();
@@ -45,7 +46,7 @@ namespace ClosureBT.Samples.MemoryGame
 
             //------------------------------------------------------------------
 
-            D.Condition("Holding F", () => Keyboard.current != null && Keyboard.current.fKey.isPressed);
+            D.Condition("Condition 1", () => Condition1);
             Sequence(() =>
             {
                 Wait(0.25f);
@@ -53,10 +54,10 @@ namespace ClosureBT.Samples.MemoryGame
                 Wait(0.25f);
             });
 
-            // D.Condition("Holding Space", () => Keyboard.current != null && Keyboard.current.spaceKey.isPressed);
+            // D.Condition("Condition 2", () => Condition2);
             _ = Reactive * Sequence(() =>
             {
-                Condition("Holding Space", () => Keyboard.current != null && Keyboard.current.spaceKey.isPressed);
+                Condition("Condition 2", () => Condition2);
                 Wait(0.25f);
                 Wait(0.25f);
                 Wait(0.25f);
@@ -79,10 +80,10 @@ namespace ClosureBT.Samples.MemoryGame
                     // 4. This guarantees cleanup logic runs even if the behavior tree structure changes mid-execution.
                     //
                     // Without try-finally, resources could leak or UI state could be left inconsistent
-                    // when the tree is interrupted (e.g., when the Space condition in Sequence fails).
+                    // when the tree is interrupted (e.g., when Condition 2 in Sequence fails).
                     try
                     {
-                        _text = "Hold Space!";
+                        _text = "Uncheck 'Condition 2' in Inspector";
                         await UniTask.WaitForSeconds(999999f, cancellationToken: ct); // Simulate long-running task
                     }
                     finally
@@ -101,6 +102,13 @@ namespace ClosureBT.Samples.MemoryGame
 
         private void OnGUI()
         {
+            var instructionStyle = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.UpperCenter,
+                fontSize = 24
+            };
+            GUI.Label(new Rect(0, 50, Screen.width, 100), "Open Node Visualizer in Inspector", instructionStyle);
+
             if (!string.IsNullOrEmpty(_text))
             {
                 var style = new GUIStyle(GUI.skin.label)

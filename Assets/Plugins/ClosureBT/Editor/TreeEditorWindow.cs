@@ -93,7 +93,12 @@ namespace ClosureBT.Editor
             // Try instance ID first (fast path, stable within sessions)
             if (_instanceID != 0)
             {
-                var obj = EditorUtility.InstanceIDToObject(_instanceID);
+                Object obj = null;
+#if UNITY_6000_3_OR_NEWER
+                obj = EditorUtility.EntityIdToObject(_instanceID);
+#else
+                obj = EditorUtility.InstanceIDToObject(_instanceID);
+#endif
 
                 if (obj != null)
                     return obj;
@@ -412,7 +417,7 @@ namespace ClosureBT.Editor
                 Style(new()
                 {
                     fontSize = 9,
-                    color = ColorPalette.DimGrayText,
+                    color = ColorPalette.TertiaryText,
                     unityFontStyleAndWeight = FontStyle.Normal,
                     marginRight = 8,
                 });
@@ -424,7 +429,7 @@ namespace ClosureBT.Editor
                 Style(new()
                 {
                     fontSize = 9,
-                    color = ColorPalette.SubtleBorder,
+                    color = ColorPalette.SecondaryBorder,
                     marginRight = 8,
                 });
             });
@@ -435,7 +440,7 @@ namespace ClosureBT.Editor
                 Style(new()
                 {
                     fontSize = 9,
-                    color = ColorPalette.DimGrayText,
+                    color = ColorPalette.TertiaryText,
                     unityFontStyleAndWeight = FontStyle.Normal,
                 });
             });
@@ -456,7 +461,7 @@ namespace ClosureBT.Editor
                 Style(new()
                 {
                     fontSize = 20,
-                    color = ColorPalette.DimGrayText,
+                    color = ColorPalette.TertiaryText,
                     paddingLeft = 0,
                     paddingRight = 0,
                     paddingTop = 0,
@@ -473,7 +478,7 @@ namespace ClosureBT.Editor
                 });
                 gearButton.RegisterCallback<MouseLeaveEvent>(evt =>
                 {
-                    gearButton.style.color = ColorPalette.DimGrayText;
+                    gearButton.style.color = ColorPalette.TertiaryText;
                 });
             });
         });

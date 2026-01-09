@@ -121,6 +121,12 @@ namespace ClosureBT.Editor
         }
 
         public static string Key(string str) => PREF_KEY + "_" + str;
+
+        [MenuItem("Tools/ClosureBT/Show Preferences")]
+        private static void ShowPreferences()
+        {
+            SettingsService.OpenUserPreferences("Preferences/ClosureBT");
+        }
     }
 
     [Flags]

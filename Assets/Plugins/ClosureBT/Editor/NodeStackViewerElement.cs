@@ -52,7 +52,7 @@ namespace ClosureBT.Editor
                 flexGrow = 1,
                 width = Length.Percent(100),
                 overflow = Overflow.Hidden,
-                backgroundColor = new Color(0.15f, 0.15f, 0.15f, 1f), // Subtle darker background
+                backgroundColor = ColorPalette.NodeStackBackground,
             });
 
             Scheduler.Execute(RefreshStack).Every(0);
@@ -122,7 +122,7 @@ namespace ClosureBT.Editor
                             fontSize = 22,
                             marginRight = 24,
                             unityFontStyleAndWeight = FontStyle.Bold,
-                            color = new Color(0.6f, 0.6f, 0.6f, 1f), // Subtle index color
+                            color = ColorPalette.TertiaryText,
                         });
 
                         var idx = _currentStackBuffer.Count - i - 1;
@@ -166,11 +166,11 @@ namespace ClosureBT.Editor
                 {
                     view.style.backgroundColor = i % 2 == 0
                         ? new Color(0.15f, 0.15f, 0.15f, 0f) // Transparent to inherit parent
-                        : new Color(0.0f, 0.0f, 0.0f, 0.15f); // Subtle dark overlay
+                        : ColorPalette.NodeStackZebraStripe;
 
                     // Add subtle border for alternating rows
                     view.style.borderBottomWidth = 1f;
-                    view.style.borderBottomColor = new Color(1f, 1f, 1f, 0.05f); // Very subtle divider
+                    view.style.borderBottomColor = ColorPalette.NodeStackDivider;
                 }
             }
 
