@@ -48,6 +48,15 @@ namespace ClosureBT.Samples.Benchmark
                 _nodeCounts[newNode] = subNodeCount;
                 TotalNodeCount += subNodeCount;
             }
+
+            // Reset min-max counters and delay collection after node count changes
+            _tickTimeSamples.Clear();
+            TickTimeMs = 0;
+            FPSMin = float.MaxValue;
+            FPSMax = float.MinValue;
+            TickTimeMsMin = float.MaxValue;
+            TickTimeMsMax = float.MinValue;
+            _statsDelayTimer = StatsCollectionDelay;
         }
 
         /// <summary>
@@ -63,6 +72,8 @@ namespace ClosureBT.Samples.Benchmark
             _nodeCounts.Clear();
             _fpsSamples.Clear();
             _tickTimeSamples.Clear();
+            _sampleTimer = 0;
+            _statsDelayTimer = StatsCollectionDelay;
             FPS = 0;
             FPSMin = float.MaxValue;
             FPSMax = float.MinValue;
@@ -70,7 +81,6 @@ namespace ClosureBT.Samples.Benchmark
             TickTimeMsMin = float.MaxValue;
             TickTimeMsMax = float.MinValue;
             TotalNodeCount = 0;
-            _statsDelayTimer = StatsCollectionDelay;
         }
 
         /// <summary>
