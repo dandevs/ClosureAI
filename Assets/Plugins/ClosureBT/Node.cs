@@ -363,6 +363,14 @@ namespace ClosureBT
                     {
                         BaseTick();
                     }
+                    catch (NodeException)
+                    {
+                        Status = Status.Failure;
+#if UNITY_EDITOR
+                        EditorApplication.isPaused = true;
+#endif
+                        throw; // Already wrapped, just rethrow
+                    }
                     catch (Exception exception)
                     {
                         Status = Status.Failure;
